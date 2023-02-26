@@ -3,6 +3,7 @@ import ListItem from "./components/ListItem";
 import { useEffect, useState } from "react";
 import Auth from "./components/Auth";
 import { useCookies } from "react-cookie";
+import AllPlants from "./components/AllPlants";
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -14,6 +15,7 @@ const App = () => {
     try {
       const response = await fetch(
         `${process.env.REACT_APP_SERVERURL}/todos/${userEmail}`
+        // `http://localhost:8000/todos/${userEmail}`
       );
       console.log("RESPONSE", response);
       const json = await response.json();
@@ -49,6 +51,7 @@ const App = () => {
         </>
       )}
       <p className="copyright">© Bloom Marketplace</p>
+      <AllPlants />
     </div>
   );
 };

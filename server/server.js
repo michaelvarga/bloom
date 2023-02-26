@@ -10,6 +10,136 @@ const jwt = require('jsonwebtoken')
 app.use(cors())
 app.use(express.json())
 
+// ----------------------PLANTS-------------------------->>
+// GET all plants
+app.get('/plants', async (req, res) => {
+  try {
+    const plants = await pool.query('SELECT * FROM plants')
+    res.json(plants.rows)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+// GET a single plant
+app.get('/plants/:plantId', async (req, res) => {
+  const { plantId } = req.params
+  try {
+    const plants = await pool.query('SELECT * FROM plants WHERE id = $1', [plantId])
+    res.json(plants.rows)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+// CREATE a plant
+app.post('/plants', async(req, res) => {
+  const { name, price, description, location, care, imgurl, inventory } = req.body
+  const id = uuidv4()
+  try {
+    const newPlant = await pool.query(`INSERT INTO plants(id, name, price, description, location, care, imgurl, inventory) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [id, name, price, description, location, care, imgurl, inventory])
+    res.json(newPlant)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+// UPDATE a plant
+app.put('/plants/:plantId', async (req, res) => {
+  const { plantId } = req.params
+  const { name, price, description, location, care, imgurl, inventory } = req.body
+  try {
+    const editPlant =
+      await pool.query('UPDATE plants SET name = $1, price = $2, description = $3, location = $4, care = $5, imgurl = $6, inventory = $7 WHERE id = $8;',
+      [name, price, description, location, care, imgurl, inventory, plantId])
+    res.json(editPlant)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+// DELETE a plant
+app.delete('/plants/:plantId', async (req, res) => {
+  const { plantId } = req.params
+  try {
+    const deletePlant = await pool.query('DELETE FROM plants WHERE id = $1;', [plantId])
+    res.json(deletePlant)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+// ----------------------ORDERS-------------------------->>
+// GET all orders for a user
+app.get('/orders/:userEmail', async (req, res) => {
+  const userEmail = req.params.userEmail
+  try {
+    const orders = await pool.query('SELECT * FROM orders WHERE userid = $1', [userEmail])
+    res.json(orders.rows)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+// GET a single order
+app.get('/orders/:orderId', async (req, res) => {
+  const orderId = req.params.orderId
+  try {
+    const orders = await pool.query('SELECT * FROM orders WHERE id = $1', [orderId])
+    res.json(orders.rows)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+// CREATE an order
+app.post('/orders', async(req, res) => {
+  const { plantid, price, quantity, userid, date, total, iscomplete } = req.body
+  const id = uuidv4()
+  try {
+    const newOrder = await pool.query(`INSERT INTO todos(id, plantid, price, quantity, userid, date, total, iscomplete) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [id, plantid, price, quantity, userid, date, total, iscomplete])
+    res.json(newOrder)
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+// ----------------------CARTS-------------------------->>
+// display cart (all cart_items belonging to :userId)
+app.get('/orders/:userEmail', async (req, res) => {
+  const userEmail = req.params.userEmail
+  try {
+    const orders = await pool.query('SELECT * FROM orders WHERE userid = $1', [userEmail])
+    res.json(orders.rows)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------------------------------------------------->>>
+
 // GET all todos
 app.get('/todos/:userEmail', async (req, res) => {
   const userEmail = req.params.userEmail
