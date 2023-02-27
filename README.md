@@ -1,6 +1,6 @@
 # Bloom Marketplace
 
-Bloom Marketplace is an e-commerce platform that specializes in selling plants. The platform is built using React, PostgreSQL, JSON Web Token, Bcrypt, Node.js, Express, Sequelize, and Sass.
+Bloom Marketplace is an e-commerce site that specializes in selling plants. This app was created for educational purposes only, and is not an actual business.
 
 ## Built With
 
@@ -10,7 +10,6 @@ Bloom Marketplace is an e-commerce platform that specializes in selling plants. 
 - Bcrypt - A library for hashing passwords
 - Node.js - An open-source, cross-platform, back-end JavaScript runtime environment
 - Express - A minimal and flexible Node.js web application framework
-- Sequelize - A promise-based Node.js ORM for Postgres, MySQL, MariaDB, SQLite and Microsoft SQL Server
 - Sass - A CSS preprocessor
 
 ## Authors
@@ -29,7 +28,7 @@ To run this project, you will need to have the following software installed on y
 
 1. Clone the repository:
 ```
-git clone https://github.com/michaelvarga/bloom-marketplace.git
+git clone https://github.com/michaelvarga/bloom.git
 ```
 2. Install the dependencies:
 ```

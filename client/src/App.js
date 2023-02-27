@@ -1,9 +1,12 @@
-import ListHeader from "./components/ListHeader";
-import ListItem from "./components/ListItem";
 import { useEffect, useState } from "react";
+import { BrowserRouter, Link, Route, Routes, Navigate } from 'react-router-dom'
 import Auth from "./components/Auth";
 import { useCookies } from "react-cookie";
-import AllPlants from "./components/AllPlants";
+import Home from "./pages/home/Home";
+import Plants from "./pages/plants/Plants";
+import PlantDetails from "./pages/plants/PlantDetails";
+import About from "./pages/about/About";
+import User from "./pages/user/User";
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -32,15 +35,9 @@ const App = () => {
     }
   }, []);
 
-  console.log(tasks);
-  // Sort by date
-  const sortedTasks = tasks?.sort(
-    (a, b) => new Date(a.data) - new Date(b.date)
-  );
-
   return (
     <div className="app">
-      {!authToken && <Auth />}
+      {/* {!authToken && <Auth />}
       {authToken && (
         <>
           <ListHeader listName={"🏝️ Holiday tick list"} getData={getData} />
@@ -50,8 +47,23 @@ const App = () => {
           ))}
         </>
       )}
-      <p className="copyright">© Bloom Marketplace</p>
-      <AllPlants />
+      <p className="copyright">© Bloom Marketplace</p> */}
+      <BrowserRouter>
+        <nav>
+          <h1>Bloom Marketplace</h1>
+          <Link to="/">Home</Link>
+          <Link to="/plants">Plants</Link>
+          <Link to="/about">About</Link>
+          <Link to="/my-profile">User</Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Home />}/>
+          <Route path="/plants" element={<Plants />}/>
+          <Route path="/plants/*" element={<PlantDetails />}/>
+          <Route path="/about/*" element={<About />}/>
+          <Route path = "/my-profile/*" element={<User />}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };
