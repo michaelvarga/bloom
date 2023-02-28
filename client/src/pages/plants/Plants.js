@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import './Plants.scss';
+import './plants.scss';
 
 import { FaRegHeart, FaHeart, FaShoppingCart } from 'react-icons/fa';
 // import { Link } from "react-router-dom";

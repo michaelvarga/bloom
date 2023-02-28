@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Link, Route, Routes, Navigate } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes, Navigate } from "react-router-dom";
 import Auth from "./components/Auth";
 import { useCookies } from "react-cookie";
+import "./index.scss";
 import Home from "./pages/home/Home";
 import Plants from "./pages/plants/Plants";
 import PlantDetails from "./pages/plants/PlantDetails";
@@ -36,7 +37,10 @@ const App = () => {
   }, []);
 
   return (
-    <div className="app">
+    <div className="app flex-container">
+      <div className="promo-banner text-center">
+        <p>Free Shipping on Orders $150+</p>
+      </div>
       {/* {!authToken && <Auth />}
       {authToken && (
         <>
@@ -49,19 +53,24 @@ const App = () => {
       )}
       <p className="copyright">© Bloom Marketplace</p> */}
       <BrowserRouter>
-        <nav>
-          <h1>Bloom Marketplace</h1>
-          <Link to="/">Home</Link>
-          <Link to="/plants">Plants</Link>
-          <Link to="/about">About</Link>
-          <Link to="/my-profile">User</Link>
+        <nav className="d-flex justify-content-between">
+          <Link to="/" className="text-reset text-decoration-none">
+            <h1>Bloom Marketplace</h1>
+          </Link>
+          <div>
+            <Link to="/plants" className="text-reset text-decoration-none">Plants</Link>
+            <Link to="/about" className="text-reset text-decoration-none">About</Link>
+          </div>
+          <div>
+            <Link to="/my-profile" className="text-reset text-decoration-none">User</Link>
+          </div>
         </nav>
         <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/plants" element={<Plants />}/>
-          <Route path="/plants/*" element={<PlantDetails />}/>
-          <Route path="/about/*" element={<About />}/>
-          <Route path = "/my-profile/*" element={<User />}/>
+          <Route path="/" element={<Home />} />
+          <Route path="/plants" element={<Plants />} />
+          <Route path="/plants/*" element={<PlantDetails />} />
+          <Route path="/about/*" element={<About />} />
+          <Route path="/my-profile/*" element={<User />} />
         </Routes>
       </BrowserRouter>
     </div>

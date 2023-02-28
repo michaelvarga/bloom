@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   padding: 0;
   background-color: rgb(233, 241, 249);
@@ -101,16 +101,16 @@ input {
 
 /* List Header */
 
-.list-header {
+/* .list-header {
   width: 100%;
   display: flex;
   justify-content: space-between;
   border-bottom: rgba(0,0,0,0.05) 1px solid;
-}
+} */
 
 /* List Item */
 
-.list-item {
+/* .list-item {
   width: 100%;
   margin: 10px 0;
   border-radius: 10px;
@@ -128,10 +128,10 @@ input {
   stroke:#000;
   stroke-miterlimit:10;
   stroke-width:32px
-}
+} */
 
 /* Modal */
-.overlay {
+/* .overlay {
   position: absolute;
   left: 0;
   top: 0;
@@ -219,7 +219,7 @@ input {
   color: rgb(114, 114, 144);
 }
 
-.outer-bar {
+/* .outer-bar {
   width: 200px;
   height: 14px;
   background-color: rgb(216, 216, 216);
@@ -233,4 +233,4 @@ input {
 
 .task-title {
   width: 300px;
-}
+} */
