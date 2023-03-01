@@ -1,64 +1,63 @@
 $green: #234229;
-$beige: #F8F3E7;
-$coral: #F6CFB2;
-$white: #FBF9F3;
+$beige: #f8f3e7;
+$coral: #f6cfb2;
+$white: #fbf9f3;
 
 // App.js
 .app {
+  background-color: $white;
+  font-family: "Raleway", sans-serif;
+
   .promo-banner {
     background-color: $green;
     color: $white;
+    margin-bottom: -1rem;
 
     p {
       padding: 10px;
     }
   }
 
-  nav {
-    color: $green;
-    text-decoration: none;
+  .navbar {
+    background-color: $white;
+
+    .nav-link {
+      color: $green;
+      font-weight: 600;
+    }
+
+    .logo {
+      color: $green;
+      margin-left: 1rem;
+      font-size: 2rem;
+      padding: 0;
+      font-family: "Baloo Bhai 2", cursive;
+    }
+
+    #link-container {
+      margin-right: 4rem;
+    }
+  }
+
+  .offcanvas-backdrop {
+    background-color: black;
   }
 }
 
-// home page
-.home-carousel-container {
-  position: relative;
+#offcanvasNavbarLabel-expand-lg {
+  color: $green;
+  font-weight: bold;
+  font-family: "Raleway", sans-serif;
+  font-size: 2rem;
+}
 
-  .carousel-message {
-    max-width: 40rem;
-    position: absolute;
-    z-index: 10;
-    top: 30%;
-    left: 10%;
+#search-btn {
+  background-color: inherit;
+  border: none;
+  padding: 0;
+  color: $green;
 
-    h1 {
-      color: $white;
-      font-size: 4rem;
-    }
-
-    p {
-      color: $coral;
-      font-size: 2rem;
-    }
-
-    button {
-      background-color: $coral;
-      color: $green;
-      font-weight: bold;
-      padding: 1rem;
-      width: 15rem;
-      border-radius: 40px;
-      border: none;
-    }
-
-    button:active {
-      border: 0.2rem solid rgb(251, 249, 243, 0.2);
-      background-color: $green;
-      color: $coral
-    }
-  }
-
-  .home-carousel {
-    // height: 75vh;
+  #btn {
+    font-size: 2rem;
   }
 }

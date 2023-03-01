@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Link, Route, Routes, Navigate } from "react-router-dom";
 import Auth from "./components/Auth";
+import NavBar from "./components/Navbar";
 import { useCookies } from "react-cookie";
 import "./index.scss";
 import Home from "./pages/home/Home";
@@ -53,7 +54,7 @@ const App = () => {
       )}
       <p className="copyright">© Bloom Marketplace</p> */}
       <BrowserRouter>
-        <nav className="d-flex justify-content-between">
+        {/* <nav className="d-flex">
           <Link to="/" className="text-reset text-decoration-none">
             <h1>Bloom Marketplace</h1>
           </Link>
@@ -61,10 +62,11 @@ const App = () => {
             <Link to="/plants" className="text-reset text-decoration-none">Plants</Link>
             <Link to="/about" className="text-reset text-decoration-none">About</Link>
           </div>
-          <div>
+          <div className="">
             <Link to="/my-profile" className="text-reset text-decoration-none">User</Link>
           </div>
-        </nav>
+        </nav> */}
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/plants" element={<Plants />} />
