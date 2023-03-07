@@ -1,3 +1,8 @@
+$green: #234229;
+$beige: #f8f3e7;
+$coral: #f6cfb2;
+$white: #fbf9f3;
+
 .plants-container {
   max-width: 80rem;
 
@@ -8,7 +13,6 @@
 
   .card {
     padding: 1rem;
-    margin: 1rem;
     border: none;
   }
 
@@ -16,4 +20,130 @@
     text-decoration: none;
     color: black;
   }
+
+  .info-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .info-header {
+    border-bottom: 1px solid $green;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+    color: $green;
+    font-weight: bold;
+  }
+
+  .color {
+    position: relative;
+    margin: 0.5rem;
+
+    label {
+      font-size: 1rem;
+      margin: auto;
+    }
+  }
+
+  .add-to-cart-btn {
+    background-color: $green;
+    color: $white;
+    font-weight: bold;
+    width: 15rem;
+    height: 4rem;
+    border-radius: 40px;
+    border: none;
+    margin-left: 1rem;
+  }
+
+  .quantity-btn {
+    color: black;
+    border-radius: 40px;
+    border: 2px solid lightgrey;
+
+    button {
+      margin: 0 1rem;
+      border: none;
+      background-color: $white;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    span {
+      font-size: 1.5rem;
+    }
+  }
+
+  .rec-card {
+
+  }
+}
+
+input[type="radio"] {
+  height: 50px;
+  width: 50px;
+}
+
+input[type='radio']:before {
+  content:'';
+  display:block;
+  width:60%;
+  height:60%;
+  margin: 20% auto;
+  border-radius:50%;
+}
+
+.form-check-input {
+  display: block; /* set display to block to center text */
+  text-align: center;
+}
+
+#stone {
+  background-color: #DADADA;
+}
+#stone:checked:before {
+  background: #DADADA;
+}
+#stone:after {
+  content: 'STONE';
+}
+#clay {
+  background-color: #C66E4E;
+}
+#clay:checked:before {
+  background: #C66E4E;
+}
+#clay:after {
+  content: 'CLAY';
+}
+#black {
+  background-color: black;
+}
+#black:checked:before {
+  background: black;
+}
+#black:after {
+  content: 'BLACK';
+}
+#slate {
+  background-color: #8391A1;
+}
+#slate:checked:before {
+  background: #8391A1;
+}
+#slate:after {
+  content: 'SLATE';
+}
+#indigo {
+  background-color: #4B0082;
+}
+#indigo:checked:before {
+  background: #4B0082;
+}
+#indigo:after {
+  content: 'INDIGO';
 }

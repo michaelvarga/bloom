@@ -61,3 +61,14 @@ $white: #fbf9f3;
     font-size: 2rem;
   }
 }
+
+.testimonial span {
+  font-weight: bold;
+  color: $green;
+}
+
+#cart-offcanvas {
+  background-color: $green;
+  color: $white;
+  font-family: "Raleway", sans-serif;
+}
