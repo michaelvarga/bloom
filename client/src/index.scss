@@ -51,14 +51,21 @@ $white: #fbf9f3;
   font-size: 2rem;
 }
 
-#search-btn {
+.nav-btn {
   background-color: inherit;
   border: none;
   padding: 0;
   color: $green;
 
-  #btn {
+  .bttn {
     font-size: 2rem;
+    color: $green;
+  }
+
+  .bttn:hover {
+    background: none;
+    border: none;
+    outline: inherit;
   }
 }
 

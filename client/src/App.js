@@ -24,7 +24,7 @@ const App = () => {
       );
       console.log("RESPONSE", response);
       const json = await response.json();
-      console.log("JSON: ", json);
+      // console.log("JSON: ", json);
       setTasks(json);
     } catch (err) {
       console.error(err);
@@ -66,7 +66,8 @@ const App = () => {
             <Link to="/my-profile" className="text-reset text-decoration-none">User</Link>
           </div>
         </nav> */}
-        <NavBar />
+        <NavBar auth={authToken}/>
+        {/* {authToken && <Auth />} */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/plants" element={<Plants />} />

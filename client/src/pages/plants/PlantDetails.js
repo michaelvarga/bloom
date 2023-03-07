@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import CartOffCanvas from "../../components/CartOffCanvas";
 import Testimonials from "../../components/Testimonials";
+import { Link } from "react-router-dom";
 
 function PlantDetails() {
   const [plant, setPlant] = useState({});
@@ -174,6 +175,8 @@ function PlantDetails() {
           <div className="row mb-5">
             {recommended.map(plant => (
               <div key={plant.id} className="col-md-3">
+                <a className="plant-link" href={`/plants/${plant.id}`}>
+
                 <div className="card">
                 <img
                   src={plant.imgurl}
@@ -185,6 +188,7 @@ function PlantDetails() {
                   <p>${plant.price}.00</p>
                 </div>
               </div>
+              </a>
               </div>
             ))}
           </div>
