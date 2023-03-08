@@ -1,8 +1,9 @@
 import { useState, useContext } from "react";
 import { useCookies } from "react-cookie";
+import "../index.scss";
 
 const Auth = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(null)
+  const [cookies, setCookie, removeCookie] = useCookies(null);
   const [isLogIn, setIsLogin] = useState(true);
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -34,63 +35,62 @@ const Auth = () => {
     if (data.detail) {
       setError(data.detail);
     } else {
-      setCookie('Email', data.email)
-      setCookie('AuthToken', data.token)
+      setCookie("Email", data.email);
+      setCookie("AuthToken", data.token);
 
       window.location.reload();
     }
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-container-box">
-        <form>
-          <h2>{isLogIn ? "Please log in" : "Please sign up!"}</h2>
-          <input
-            type="email"
-            placeholder="email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          {!isLogIn && (
+    <div className="d-flex justify-content-center auth-container">
+      <div className="login-form">
+        <form className="d-flex row">
+          <h2>{isLogIn ? "Log In" : "Sign Up"}</h2>
+          <label>
+            Email Address
+            <input
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
+              className="auth-input"
+            />
+          </label>
+          <label htmlFor="">
+            Password
             <input
               type="password"
-              placeholder="confirm password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
             />
+          </label>
+          {!isLogIn && (
+            <label>
+              Confirm Password
+              <input
+                type="password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </label>
           )}
-          <input
-            type="submit"
-            className="create"
-            onClick={(e) => handleSubmit(e, isLogIn ? "login" : "signup")}
-          />
-          {error && <p>{error}</p>}
         </form>
-        <div className="auth-options">
+        <div className="d-flex align-items-center justify-content-between">
           <button
-            onClick={() => viewLogin(false)}
-            style={{
-              backgroundColor: !isLogIn
-                ? "rgb(255, 255, 255)"
-                : "rgb(188, 188, 188)",
-            }}
+            type="submit"
+            onClick={(e) => handleSubmit(e, isLogIn ? "login" : "signup")}
           >
-            Sign Up
+            Submit
           </button>
-          <button
-            onClick={() => viewLogin(true)}
-            style={{
-              backgroundColor: isLogIn
-                ? "rgb(255, 255, 255)"
-                : "rgb(188, 188, 188)",
-            }}
-          >
-            Login
-          </button>
+          {error && <p>{error}</p>}
+          <div>
+            {isLogIn ? (
+              <span onClick={() => viewLogin(false)}>
+                New here? Sign up now.
+              </span>
+            ) : (
+              <span onClick={() => viewLogin(true)}>
+                Already have an account? Sign in.
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>

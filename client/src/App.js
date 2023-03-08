@@ -73,7 +73,7 @@ const App = () => {
           <Route path="/plants" element={<Plants />} />
           <Route path="/plants/:id" element={<PlantDetails />} />
           <Route path="/about/*" element={<About />} />
-          <Route path="/my-profile/*" element={<User />} />
+          <Route path="/my-profile/*" element={<User auth={authToken} email={userEmail}/>} />
         </Routes>
       </BrowserRouter>
     </div>

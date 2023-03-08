@@ -79,3 +79,57 @@ $white: #fbf9f3;
   color: $white;
   font-family: "Raleway", sans-serif;
 }
+
+.auth-container {
+  .login-form {
+    max-width: 40rem;
+    padding: 2rem;
+  }
+
+  h2 {
+    color: $green;
+    font-weight: bold;
+    padding-left: 0;
+  }
+
+  label {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding-left: 0;
+  }
+
+  input {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    border: 2px solid lightgray;
+  }
+
+  input:hover {
+    border: 2px solid $coral;
+  }
+
+  button {
+    background-color: $green;
+    color: $white;
+    font-weight: bold;
+    width: 10rem;
+    height: 4rem;
+    border-radius: 40px;
+    border: none;
+  }
+
+  span {
+    color: $green;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-right: 1rem;
+  }
+
+  span:hover {
+    font-weight: bold;
+  }
+}

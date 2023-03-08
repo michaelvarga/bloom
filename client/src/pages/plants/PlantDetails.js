@@ -185,7 +185,7 @@ function PlantDetails() {
                 />
                 <div className="card-body d-flex justify-content-between">
                   <h5 className="card-title">{plant.name}</h5>
-                  <p>${plant.price}.00</p>
+                  <p>${plant.price}</p>
                 </div>
               </div>
               </a>
