@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from 'axios';
 import "./plants.scss";
 
 import { FaRegHeart, FaHeart, FaShoppingCart } from "react-icons/fa";
@@ -9,11 +10,10 @@ function Plants() {
 
   const getPlants = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVERURL}/plants`);
-      const json = await response.json();
-      setPlants(json);
-    } catch (err) {
-      console.error(err);
+      const {data} = await axios.get("http://localhost:8080/api/plants");
+      setPlants(data)
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -30,7 +30,7 @@ function Plants() {
             <Link to={`/plants/${plant.id}`} className='plant-link'>
               <div className="card">
                 <img
-                  src={plant.imgurl}
+                  src={plant.imgUrl}
                   alt={plant.name}
                   className="card-img-top"
                 />

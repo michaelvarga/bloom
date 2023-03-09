@@ -28,7 +28,7 @@ function PlantDetails() {
   };
 
   const createCartItem = async (plantId, userId) => {
-    
+
   }
 
   const handleAddToCart = () => {
@@ -37,11 +37,8 @@ function PlantDetails() {
 
   const getPlant = async (plantId) => {
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVERURL}/plants/${plantId}`
-      );
-      const json = await response.json();
-      setPlant(json[0]);
+      const {data} = await axios.get(`http://localhost:8080/api/plants/${plantId}`);
+      setPlant(data);
     } catch (err) {
       console.error(err);
     }
@@ -49,9 +46,13 @@ function PlantDetails() {
 
   const getRecommended = async (currId) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVERURL}/plants/`)
-        .then((res) => res.json()).then(data => data.filter(obj => obj.id !== currId));
-      setRecommended(response.slice(0, 4))
+      // const response = await fetch(`${process.env.REACT_APP_SERVERURL}/plants/`)
+      //   .then((res) => res.json()).then(data => data.filter(obj => obj.id !== currId));
+      axios.get(`http://localhost:8080/api/plants`)
+        .then(response => {
+          const plants = response.data.filter(plant => plant.id !== currId).slice(0, 4);
+          setRecommended(plants)
+        })
     } catch (err) {
       console.error(err);
     }
@@ -72,7 +73,7 @@ function PlantDetails() {
       />
       <div className="d-flex row plants-container">
         <img
-          src={plant.imgurl}
+          src={plant.imgUrl}
           alt={plant.name}
           id="plant-img"
           className="col-lg-6"
@@ -184,7 +185,7 @@ function PlantDetails() {
 
                 <div className="card">
                 <img
-                  src={plant.imgurl}
+                  src={plant.imgUrl}
                   alt={plant.name}
                   className="card-img-top"
                 />
