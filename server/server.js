@@ -106,12 +106,60 @@ app.post('/orders', async(req, res) => {
   }
 })
 
+// ----------------SHOPPING SESSION--------------------->>
+// display all shopping sessions
+app.get('/sessions', async(req, res) => {
+  try {
+    const sessions = await pool.query('SELECT * FROM shopping_session')
+    res.json(sessions.rows)
+  } catch (err) {
+    console.error(err)
+  }
+})
+
+// GET a session from userEmail
+app.get('/sessions/auth/:userId', async (req, res) => {
+  const { userId } = req.params
+  try {
+    const session = await pool.query('SELECT * FROM shopping_session WHERE userId = $1', [userId])
+    res.json(session.rows)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+// GET a session from cookie
+app.get('/sessions/:sessionId', async (req, res) => {
+  const { sessionId } = req.params
+  try {
+    const session = await pool.query('SELECT * FROM shopping_session WHERE id = $1', [sessionId])
+    res.json(session.rows)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+// CREATE a shopping session
+app.post('/sessions', async(req, res) => {
+  const { userId, total } = req.body
+  try {
+    const newSession = await pool.query(`INSERT INTO shopping_session(userId, total) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [userId, total])
+    res.json(newSession)
+  } catch (err) {
+    console.error(err)
+  }
+});
+
+
+
+
 // ----------------------CARTS-------------------------->>
 // display cart (all cart_items belonging to :userId)
-app.get('/orders/:userEmail', async (req, res) => {
+app.get('/cart/:userEmail', async (req, res) => {
   const userEmail = req.params.userEmail
   try {
-    const orders = await pool.query('SELECT * FROM orders WHERE userid = $1', [userEmail])
+    const orders = await pool.query('SELECT * FROM cart_items WHERE userid = $1', [userEmail])
     res.json(orders.rows)
   } catch (err) {
     console.error(err)

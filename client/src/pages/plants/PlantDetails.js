@@ -4,6 +4,7 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import CartOffCanvas from "../../components/CartOffCanvas";
 import Testimonials from "../../components/Testimonials";
 import { Link } from "react-router-dom";
+import axios from 'axios'
 
 function PlantDetails() {
   const [plant, setPlant] = useState({});
@@ -25,6 +26,10 @@ function PlantDetails() {
       setQuantity(quantity - 1);
     }
   };
+
+  const createCartItem = async (plantId, userId) => {
+    
+  }
 
   const handleAddToCart = () => {
     handleShowCart();
