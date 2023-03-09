@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const {
-  models: { User, Order, Plant, Cart_Item },
+  models: { User, Plant, Cart_Item },
 } = require("../db");
 
 const requireToken = async (req, res, next) => {
