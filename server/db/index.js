@@ -3,6 +3,7 @@ const User = require("./models/User");
 const Order = require("./models/Order");
 const Plant = require("./models/Plant");
 const Cart_Item = require("./models/Cart_Item");
+const Shopping_Session = require("./models/Shopping_Session");
 
 /*
 3 types of data
@@ -21,9 +22,6 @@ const Cart_Item = require("./models/Cart_Item");
     --payments
 */
 
-// one-to-one between user, shopping_session
-// one-to-many between shopping_session, cart_items
-// one-to-one between plant and cart_item
 
 Order.belongsToMany(Plant, { through: "Order_Details" });
 Plant.belongsToMany(Order, { through: "Order_Details" });
@@ -34,14 +32,20 @@ Order.belongsTo(User);
 Order.hasMany(Cart_Item);
 Cart_Item.belongsTo(Order);
 
+// one-to-many between plant and cart_item
 Plant.hasMany(Cart_Item);
 Cart_Item.belongsTo(Plant);
 
-// Plant.belongsToMany(Cart_Item, { through: "User_Cart" });
-// Cart_Item.belongsToMany(Plant, { through: "User_Cart" });
-
 Cart_Item.belongsTo(User);
 User.hasMany(Cart_Item);
+
+// one-to-one between user, shopping_session
+User.hasOne(Shopping_Session);
+Shopping_Session.belongsTo(User);
+
+// one-to-many between shopping_session, cart_items
+Shopping_Session.hasMany(Cart_Item);
+Cart_Item.belongsTo(Shopping_Session);
 
 module.exports = {
   db,
@@ -50,5 +54,6 @@ module.exports = {
     Order,
     Plant,
     Cart_Item,
+    Shopping_Session
   },
 };
