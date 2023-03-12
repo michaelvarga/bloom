@@ -7,6 +7,7 @@ module.exports = router;
 router.post("/:userId", async (req, res, next) => {
   const { userId } = req.params;
   try {
+    console.log(userId)
     const user = await User.findByPk(userId);
     if (!user) {
       return res.status(404).send("User not found");
@@ -38,7 +39,11 @@ router.get("/:userId", async (req, res, next) => {
       return res.status(404).send("User not found");
     }
 
-    const session = await Shopping_Session.findOne({userId});
+    const session = await Shopping_Session.findOne({
+      where: {
+        userId: userId
+      }
+    });
     if(!session) {
       return res.status(404).json({error: "Session not found"})
     }

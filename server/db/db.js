@@ -5,7 +5,7 @@ const pkg = require('../../package.json')
 const databaseName = 'bloom_server' + (process.env.NODE_ENV === 'test' ? '-test' : '')
 
 const config = {
-  logging: false
+  logging: console.log
 };
 
 if(process.env.LOGGING === 'true'){

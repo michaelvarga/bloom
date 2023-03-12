@@ -17,5 +17,9 @@ module.exports = db.define("cart_item", {
   purchasePrice: {
     type: Sequelize.INTEGER,
     defaultValue: null
+  },
+  color: {
+    type: Sequelize.ENUM('clay', 'black', 'stone', 'slate', 'indigo'),
+    defaultValue: 'clay'
   }
 });

@@ -4,14 +4,14 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 import CartOffCanvas from "../../components/CartOffCanvas";
 import Testimonials from "../../components/Testimonials";
 import { Link } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
-function PlantDetails() {
-  const [plant, setPlant] = useState({});
-  const [recommended, setRecommended] = useState([])
-  const [quantity, setQuantity] = useState(1);
+function PlantDetails({ email }) {
   const { id } = useParams();
-
+  const [plant, setPlant] = useState({});
+  const [recommended, setRecommended] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const [color, setColor] = useState('clay')
   const [showCart, setShowCart] = useState(false);
 
   const handleCloseCart = () => setShowCart(false);
@@ -27,17 +27,44 @@ function PlantDetails() {
     }
   };
 
-  const createCartItem = async (plantId, userId) => {
-
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setColor(value)
+    // setFormData({...formData, [name]: value})
+    // console.log("FORM DATA", formData)
   }
 
-  const handleAddToCart = () => {
+  const createCartItem = async (plant, userId) => {
+    // create shopping session if doesnt exist
+    // add cart item to shopping session
+    const session = await axios
+    .post(`http://localhost:8080/api/shopping_sessions/${userId}/`)
+
+    let sessionId = session.data.id;
+    const item = {
+      plantId: id,
+      shoppingSessionId: sessionId,
+      userId: userId,
+      purchasePrice: plant.price,
+      quantity: quantity,
+      color: color
+    }
+    // create the cart item with the item data above,
+    // need to update cart_item api to do this
+    // const cart = await axios.post()
+  };
+
+  const handleAddToCart = (plant) => {
+    console.log(color, quantity)
     handleShowCart();
+    createCartItem(plant, 1); // UPDATE THIS
   };
 
   const getPlant = async (plantId) => {
     try {
-      const {data} = await axios.get(`http://localhost:8080/api/plants/${plantId}`);
+      const { data } = await axios.get(
+        `http://localhost:8080/api/plants/${plantId}`
+      );
       setPlant(data);
     } catch (err) {
       console.error(err);
@@ -48,11 +75,12 @@ function PlantDetails() {
     try {
       // const response = await fetch(`${process.env.REACT_APP_SERVERURL}/plants/`)
       //   .then((res) => res.json()).then(data => data.filter(obj => obj.id !== currId));
-      axios.get(`http://localhost:8080/api/plants`)
-        .then(response => {
-          const plants = response.data.filter(plant => plant.id !== currId).slice(0, 4);
-          setRecommended(plants)
-        })
+      axios.get(`http://localhost:8080/api/plants`).then((response) => {
+        const plants = response.data
+          .filter((plant) => plant.id !== currId)
+          .slice(0, 4);
+        setRecommended(plants);
+      });
     } catch (err) {
       console.error(err);
     }
@@ -84,6 +112,7 @@ function PlantDetails() {
             <div>${plant.price}</div>
           </div>
 
+          <p>Emaill: {email}</p>
           <p>{plant.description}</p>
 
           <p>{plant.location}</p>
@@ -105,6 +134,7 @@ function PlantDetails() {
                   className="form-check-input"
                   name="color"
                   id="stone"
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-check form-check-inline color">
@@ -112,7 +142,9 @@ function PlantDetails() {
                   type="radio"
                   className="form-check-input"
                   name="color"
+                  value="clay"
                   id="clay"
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-check form-check-inline color">
@@ -120,7 +152,9 @@ function PlantDetails() {
                   type="radio"
                   className="form-check-input"
                   name="color"
+                  value="black"
                   id="black"
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-check form-check-inline color">
@@ -128,7 +162,9 @@ function PlantDetails() {
                   type="radio"
                   className="form-check-input"
                   name="color"
+                  value="slate"
                   id="slate"
+                  onChange={handleChange}
                 />
               </div>
               <div className="form-check form-check-inline color">
@@ -136,7 +172,9 @@ function PlantDetails() {
                   type="radio"
                   className="form-check-input"
                   name="color"
+                  value="indigo"
                   id="indigo"
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -179,22 +217,21 @@ function PlantDetails() {
         <div className="recommended-plants fluid-container d-flex row justify-content-center">
           <h3 className="mt-5 mb-3">People Also Browsed</h3>
           <div className="row mb-5">
-            {recommended.map(plant => (
+            {recommended.map((plant) => (
               <div key={plant.id} className="col-md-3">
                 <a className="plant-link" href={`/plants/${plant.id}`}>
-
-                <div className="card">
-                <img
-                  src={plant.imgUrl}
-                  alt={plant.name}
-                  className="card-img-top"
-                />
-                <div className="card-body d-flex justify-content-between">
-                  <h5 className="card-title">{plant.name}</h5>
-                  <p>${plant.price}</p>
-                </div>
-              </div>
-              </a>
+                  <div className="card">
+                    <img
+                      src={plant.imgUrl}
+                      alt={plant.name}
+                      className="card-img-top"
+                    />
+                    <div className="card-body d-flex justify-content-between">
+                      <h5 className="card-title">{plant.name}</h5>
+                      <p>${plant.price}</p>
+                    </div>
+                  </div>
+                </a>
               </div>
             ))}
           </div>
