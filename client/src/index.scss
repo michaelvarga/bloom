@@ -78,6 +78,11 @@ $white: #fbf9f3;
   background-color: $green;
   color: $white;
   font-family: "Raleway", sans-serif;
+  width: 30rem;
+
+  img {
+    width: 5rem;
+  }
 }
 
 .auth-container {

@@ -15,9 +15,9 @@ const requireToken = async (req, res, next) => {
 };
 
 // display cart (all cart_items belonging to :userId)
-router.get("/:userId", requireToken, async (req, res, next) => {
+router.get("/:userId", async (req, res, next) => {
   let cart_items;
-  const authenticatedUserId = req.user.dataValues.id;
+  // const authenticatedUserId = req.user.dataValues.id;
 
   try {
     cart_items = await Cart_Item.findAll({
@@ -26,33 +26,36 @@ router.get("/:userId", requireToken, async (req, res, next) => {
       },
       include: [User, Plant]
     });
-    if (authenticatedUserId == req.params.userId) {
-      res.status(201).send(cart_items)
-    } else {
-      throw new Error("Not authorized");
-    }
+    res.status(201).send(cart_items)
   } catch (err) {
     next(err);
   }
 });
 
-//create new cart_item (need userId and plantId)
-router.post("/:userId/:plantId", async (req, res, next) => {
+//create new cart_item
+router.post("/", async (req, res, next) => {
   try {
-    const user = await User.findByPk(req.params.userId);
-
-    const plant = await Plant.findByPk(req.params.plantId);
-
-    const cart_item = await Cart_Item.create({
-      userId: user.id,
-      plantId: plant.id
-    }
-    );
-    res.status(201).send(cart_item);
-  } catch (error) {
-    next(error);
+    const cartItem = await Cart_Item.create(req.body);
+    res.json(cartItem);
+  } catch (err) {
+    next(err);
   }
 });
+
+// get all cart items in a shopping session
+router.get("/:session_id", async (req, res, next) => {
+  try {
+    const items = await Cart_Item.findAll({
+      where: {
+        shoppingSessionId: req.params.session_id
+      },
+      include: [Plant]
+    });
+    res.status(201).send(items)
+  } catch (err) {
+    next(err)
+  }
+})
 
 //delete cart_item from cart
 router.delete("/:cart_itemId", async (req, res, next) => {
@@ -64,7 +67,6 @@ router.delete("/:cart_itemId", async (req, res, next) => {
     next(error);
   }
 });
-
 
 //purchase cart items
 router.put('/purchase/:userId', async (req, res, next) => {

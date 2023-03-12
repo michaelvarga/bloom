@@ -9,10 +9,12 @@ import axios from "axios";
 function PlantDetails({ email }) {
   const { id } = useParams();
   const [plant, setPlant] = useState({});
+  const [cart, setCart] = useState([]);
   const [recommended, setRecommended] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  const [color, setColor] = useState('clay')
-  const [showCart, setShowCart] = useState(false);
+  const [color, setColor] = useState("clay");
+  // const [showCart, setShowCart] = useState(false);
+  const [showCart, setShowCart] = useState(true);
 
   const handleCloseCart = () => setShowCart(false);
   const handleShowCart = () => setShowCart(true);
@@ -29,35 +31,42 @@ function PlantDetails({ email }) {
 
   const handleChange = (e) => {
     const { value } = e.target;
-    setColor(value)
-    // setFormData({...formData, [name]: value})
-    // console.log("FORM DATA", formData)
-  }
-
-  const createCartItem = async (plant, userId) => {
-    // create shopping session if doesnt exist
-    // add cart item to shopping session
-    const session = await axios
-    .post(`http://localhost:8080/api/shopping_sessions/${userId}/`)
-
-    let sessionId = session.data.id;
-    const item = {
-      plantId: id,
-      shoppingSessionId: sessionId,
-      userId: userId,
-      purchasePrice: plant.price,
-      quantity: quantity,
-      color: color
-    }
-    // create the cart item with the item data above,
-    // need to update cart_item api to do this
-    // const cart = await axios.post()
+    setColor(value);
   };
 
-  const handleAddToCart = (plant) => {
-    console.log(color, quantity)
+  const createCartItem = async (userId) => {
+    // create shopping session if doesnt exist
+    // add cart item to shopping session
+    try {
+      const session = await axios.post(
+        `http://localhost:8080/api/shopping_sessions/${userId}/`
+      );
+
+      let sessionId = session.data.id;
+      const item = {
+        plantId: id,
+        shoppingSessionId: sessionId,
+        userId: userId,
+        purchasePrice: plant.price,
+        quantity: quantity,
+        color: color,
+      };
+
+      const { data: created } = await axios.post(
+        `http://localhost:8080/api/cart_items`,
+        item
+      );
+      console.log("CART ITEM", created);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleAddToCart = () => {
+    console.log(color, quantity);
     handleShowCart();
-    createCartItem(plant, 1); // UPDATE THIS
+    createCartItem(1); // UPDATE THIS
+    getCart(1); //UPDATE THIS
   };
 
   const getPlant = async (plantId) => {
@@ -70,6 +79,16 @@ function PlantDetails({ email }) {
       console.error(err);
     }
   };
+
+  const getCart = async (sessionId) => {
+    try {
+      const {data} = await axios.get(`http://localhost:8080/api/cart_items/${sessionId}`);
+      setCart(data)
+      console.log("CART", data)
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   const getRecommended = async (currId) => {
     try {
@@ -88,6 +107,7 @@ function PlantDetails({ email }) {
 
   useEffect(() => {
     getPlant(id);
+    getCart(1); //UPDATE THIS
     getRecommended(id);
   }, []);
 
@@ -98,6 +118,7 @@ function PlantDetails({ email }) {
         name="Cart"
         handleClose={handleCloseCart}
         show={showCart}
+        cart={cart}
       />
       <div className="d-flex row plants-container">
         <img
