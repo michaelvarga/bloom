@@ -109,7 +109,7 @@ function PlantDetails({ email }) {
     getPlant(id);
     getCart(1); //UPDATE THIS
     getRecommended(id);
-  }, []);
+  }, [id]);
 
   return (
     <div className="d-flex justify-content-center container mt-5">

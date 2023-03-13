@@ -80,9 +80,67 @@ $white: #fbf9f3;
   font-family: "Raleway", sans-serif;
   width: 30rem;
 
+  .cart-item {
+    border-top: 1px solid white;
+  }
+
   img {
     width: 5rem;
   }
+  .quantity-btn {
+    color: $white;
+    border-radius: 40px;
+    border: 2px solid grey;
+    width: 6rem;
+    height: 2.5rem;
+
+    button {
+      border: none;
+      background-color: $green;
+      color: $white;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      margin: 0;
+    }
+
+    span {
+      font-size: 1.25rem;
+      margin: 0 0.5rem;
+    }
+  }
+
+  .remove-btn {
+    background-color: $green;
+    border: none;
+    color: $beige;
+    font-size: 0.8rem;
+  }
+
+  .remove-btn:hover {
+    color: white;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  .offcanvas-footer {
+    height: 20rem;
+    border-top: 2px solid white;
+
+    button {
+      color: $green;
+      background-color: $white;
+      font-weight: bold;
+      width: 15rem;
+      height: 3rem;
+      border-radius: 40px;
+      border: none;
+      // margin-left: 1rem;
+    }
+  }
+
 }
 
 .auth-container {
