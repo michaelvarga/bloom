@@ -97,8 +97,7 @@ router.put('/purchase/:userId', async (req, res, next) => {
 // increment quantity of item in cart
 router.put("/inc/:cart_itemId", async (req, res, next) => {
   try {
-    const cart_item = await Cart_Item.findByPk(req.params.cart_itemId, { include: [User, Plant] });
-
+    const cart_item = await Cart_Item.findByPk(req.params.cart_itemId);
     res.send(await cart_item.increment("quantity"));
   } catch (error) {
     next(error);
@@ -108,8 +107,7 @@ router.put("/inc/:cart_itemId", async (req, res, next) => {
 // decrement quantity of item in cart
 router.put("/dec/:cart_itemId", async (req, res, next) => {
   try {
-    const cart_item = await Cart_Item.findByPk(req.params.cart_itemId, { include: [User, Plant] });
-
+    const cart_item = await Cart_Item.findByPk(req.params.cart_itemId);
     res.send(await cart_item.decrement("quantity"));
   } catch (error) {
     next(error);

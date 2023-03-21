@@ -13,8 +13,7 @@ function PlantDetails({ email }) {
   const [recommended, setRecommended] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState("clay");
-  // const [showCart, setShowCart] = useState(false);
-  const [showCart, setShowCart] = useState(true);
+  const [showCart, setShowCart] = useState(false);
 
   const handleCloseCart = () => setShowCart(false);
   const handleShowCart = () => setShowCart(true);
@@ -51,7 +50,7 @@ function PlantDetails({ email }) {
         quantity: quantity,
         color: color,
       };
-
+      // check if cart_items with sessionId has id, if yes update, or else create
       const { data: created } = await axios.post(
         `http://localhost:8080/api/cart_items`,
         item
@@ -132,8 +131,6 @@ function PlantDetails({ email }) {
             <h3>{plant.name}</h3>
             <div>${plant.price}</div>
           </div>
-
-          <p>Emaill: {email}</p>
           <p>{plant.description}</p>
 
           <p>{plant.location}</p>

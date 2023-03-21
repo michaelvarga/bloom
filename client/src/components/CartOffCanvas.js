@@ -6,32 +6,64 @@ import { FaPlus, FaMinus } from "react-icons/fa";
 
 function CartOffCanvas({ handleClose, show, cart, ...props }) {
   const [cartItems, setCartItems] = useState(cart);
-  const [total, setTotal] = useState(0)
+  const [total, setTotal] = useState(0);
 
-  const handleQuantityChange = (index, value) => {
+  const handleQuantityChange = async (index, value) => {
     const newCartItems = [...cartItems];
-    if (value === -1 && newCartItems[index].quantity > 1) {
-      newCartItems[index].quantity--;
-    } else if (value === 1) {
-      newCartItems[index].quantity++;
+
+    try {
+      if (value === -1 && newCartItems[index].quantity > 1) {
+        newCartItems[index].quantity--;
+        await axios.put(`http://localhost:8080/api/cart_items/dec/${newCartItems[index].id}`);
+      } else if (value === 1) {
+        newCartItems[index].quantity++;
+        await axios.put(`http://localhost:8080/api/cart_items/inc/${newCartItems[index].id}`);
+      }
+
+
+      console.log("Updated!");
+    } catch (err) {
+      console.error(err);
     }
 
     setCartItems(newCartItems);
+    getTotal();
     // make an API call to update quantity to new quantity
     // create API route for PUT of cart_item
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const newCartItems = cartItems.filter((item) => item.id !== id);
     setCartItems(newCartItems);
+    getTotal();
 
     // make an API route to delete cart item by id
     // make delete call of cart_item
+    try {
+      await axios.delete(`http://localhost:8080/api/cart_items/${id}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getTotal = () => {
+    let totalPrice = 0;
+    cartItems.forEach((item) => {
+      totalPrice += item.plant.price * item.quantity;
+    });
+    console.log("TOTAL PRICE", totalPrice);
+    setTotal(totalPrice);
   };
 
   useEffect(() => {
     setCartItems(cart);
+    setTotal();
   }, [cart]);
+
+  useEffect(() => {
+    if (!cartItems) return;
+    getTotal();
+  }, [cartItems]);
 
   return (
     <>
@@ -62,7 +94,9 @@ function CartOffCanvas({ handleClose, show, cart, ...props }) {
                       <div className="quantity-btn d-flex justify-content-center align-items-center text-center p-1">
                         <button>
                           <FaMinus
-                            onClick={() => handleQuantityChange(index, -1)}
+                            onClick={() =>
+                              handleQuantityChange(index, -1)
+                            }
                           />
                         </button>
                         <span className="mb-1">{item.quantity}</span>
@@ -88,16 +122,14 @@ function CartOffCanvas({ handleClose, show, cart, ...props }) {
           )}
         </Offcanvas.Body>
         <div className="offcanvas-footer m-3 p-3">
-            <div className="d-flex justify-content-between">
-        <span>Subtotal</span>
-        <span>${total}</span>
-
-            </div>
-            <button className="w-100 mt-3">
-              CHECKOUT
-            </button>
+          <div className="d-flex justify-content-between">
+            <span>Subtotal</span>
+            <span>${total}</span>
+          </div>
+          <button className="w-100 mt-3" onClick={() => getTotal()}>
+            CHECKOUT
+          </button>
         </div>
-
       </Offcanvas>
     </>
   );
