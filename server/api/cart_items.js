@@ -22,11 +22,11 @@ router.get("/:userId", async (req, res, next) => {
   try {
     cart_items = await Cart_Item.findAll({
       where: {
-        userId: req.params.userId
+        userId: req.params.userId,
       },
-      include: [User, Plant]
+      include: [User, Plant],
     });
-    res.status(201).send(cart_items)
+    res.status(201).send(cart_items);
   } catch (err) {
     next(err);
   }
@@ -35,8 +35,21 @@ router.get("/:userId", async (req, res, next) => {
 //create new cart_item
 router.post("/", async (req, res, next) => {
   try {
-    const cartItem = await Cart_Item.create(req.body);
-    res.json(cartItem);
+    // check if they have a shopping session
+    let cartItem = await Cart_Item.findOne({
+      where: { plantId: req.body.plantId, color: req.body.color },
+    });
+
+    // if not, create a new shopping session
+    if (!cartItem) {
+      cartItem = await Cart_Item.create(req.body);
+      console.log("CART ITEM CREATED");
+    } else {
+      cartItem.quantity += req.body.quantity;
+      await cartItem.save();
+      console.log("CART UPDATED");
+      res.status(200).json(cartItem);
+    }
   } catch (err) {
     next(err);
   }
@@ -47,15 +60,15 @@ router.get("/:session_id", async (req, res, next) => {
   try {
     const items = await Cart_Item.findAll({
       where: {
-        shoppingSessionId: req.params.session_id
+        shoppingSessionId: req.params.session_id,
       },
-      include: [Plant]
+      include: [Plant],
     });
-    res.status(201).send(items)
+    res.status(201).send(items);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
 
 //delete cart_item from cart
 router.delete("/:cart_itemId", async (req, res, next) => {
@@ -69,30 +82,28 @@ router.delete("/:cart_itemId", async (req, res, next) => {
 });
 
 //purchase cart items
-router.put('/purchase/:userId', async (req, res, next) => {
+router.put("/purchase/:userId", async (req, res, next) => {
   try {
     const cart_items = await Cart_Item.update(
       {
         purchaseStatus: "purchased",
         purchaseDate: new Date(),
-        purchasePrice: 100
+        purchasePrice: 100,
       },
 
       {
         where: {
           userId: req.params.userId,
-          purchaseStatus: "cart"
-        }
+          purchaseStatus: "cart",
+        },
       }
-    )
-    res.send(cart_items)
+    );
+    res.send(cart_items);
     // res.send(await cart_items.update({ isPurchased: true }))
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
-
-
+});
 
 // increment quantity of item in cart
 router.put("/inc/:cart_itemId", async (req, res, next) => {
@@ -114,33 +125,33 @@ router.put("/dec/:cart_itemId", async (req, res, next) => {
   }
 });
 
-
 // save cart item for later
-router.put('/later/:cart_itemId', async (req, res, next) => {
+router.put("/later/:cart_itemId", async (req, res, next) => {
   try {
     const cart_item = await Cart_Item.update(
       { purchaseStatus: "later" },
-      { where: { id: req.params.cart_itemId } })
+      { where: { id: req.params.cart_itemId } }
+    );
 
-    res.send(cart_item)
+    res.send(cart_item);
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 // move saved item into cart
-router.put('/saved/:cart_itemId', async (req, res, next) => {
+router.put("/saved/:cart_itemId", async (req, res, next) => {
   try {
     const cart_item = await Cart_Item.update(
       { purchaseStatus: "cart" },
-      { where: { id: req.params.cart_itemId } })
+      { where: { id: req.params.cart_itemId } }
+    );
 
-    res.send(cart_item)
-  }
-  catch (error) {
+    res.send(cart_item);
+  } catch (error) {
     next(error);
   }
-})
+});
 //purchase cart and delete items
 router.delete("/purchase/:userId", async (req, res, next) => {
   try {
@@ -152,17 +163,16 @@ router.delete("/purchase/:userId", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-})
+});
 
 //create new cart_item and save it for later
-router.post('/later/:userId/:plantId', async (req, res, next) => {
+router.post("/later/:userId/:plantId", async (req, res, next) => {
   try {
-
     const cart_item = await Cart_Item.create({
       userId: req.params.userId,
       plantId: req.params.plantId,
-      purchaseStatus: "later"
-    })
+      purchaseStatus: "later",
+    });
 
     res.status(201).send(cart_item);
   } catch (error) {

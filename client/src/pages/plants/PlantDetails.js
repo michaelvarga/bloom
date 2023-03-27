@@ -69,23 +69,25 @@ function PlantDetails() {
         quantity: quantity,
         color: color,
       };
+
       // check if cart_items with sessionId has id, if yes update, or else create
       const { data: created } = await axios.post(
         `http://localhost:8080/api/cart_items`,
         item
       );
-      notifySuccess();
       console.log("CART ITEM CREATED");
     } catch (err) {
-      notifyError(err.message)
       console.error(err);
     }
   };
 
-  const handleAddToCart = () => {
-    createCartItem(1); // UPDATE THIS
-    // handleShowCart(); //SHOW TOAST INSTEAD OF CART
-    // getCart(1); //UPDATE THIS
+  const handleAddToCart = async () => {
+    try {
+      notifySuccess();
+      await createCartItem(1); // UPDATE THIS
+    } catch (err) {
+      notifyError(err.message)
+    }
   };
 
   const getPlant = async (plantId) => {
