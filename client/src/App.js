@@ -4,37 +4,82 @@ import Auth from "./components/Auth";
 import NavBar from "./components/Navbar";
 import { useCookies } from "react-cookie";
 import "./index.scss";
+import axios from "axios";
 import Home from "./pages/home/Home";
 import Plants from "./pages/plants/Plants";
 import PlantDetails from "./pages/plants/PlantDetails";
 import About from "./pages/about/About";
 import User from "./pages/user/User";
+import CartOffCanvas from "./components/CartOffCanvas";
 
 const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const authToken = cookies.AuthToken;
   const userEmail = cookies.Email;
-  const [tasks, setTasks] = useState(null);
+  const [cart, setCart] = useState([]);
+  const [showCart, setShowCart] = useState(false);
 
-  const getData = async () => {
+  const handleCloseCart = () => setShowCart(false);
+  const handleShowCart = async () => {
+    await fetchCartData();
+    setShowCart(true);
+  };
+
+  // const getData = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       `${process.env.REACT_APP_SERVERURL}/todos/${userEmail}`
+  //       // `http://localhost:8000/todos/${userEmail}`
+  //     );
+  //     console.log("RESPONSE", response);
+  //     const json = await response.json();
+  //     // console.log("JSON: ", json);
+  //     setTasks(json);
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (authToken) {
+  //     getData();
+  //   }
+  // }, []);
+  const getCart = async (sessionId) => {
     try {
-      const response = await fetch(
-        `${process.env.REACT_APP_SERVERURL}/todos/${userEmail}`
-        // `http://localhost:8000/todos/${userEmail}`
+      const { data } = await axios.get(
+        `http://localhost:8080/api/cart_items/${sessionId}`
       );
-      console.log("RESPONSE", response);
-      const json = await response.json();
-      // console.log("JSON: ", json);
-      setTasks(json);
+      setCart(data);
+      console.log("CART", data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getSessionId = async (userId) => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8080/api/shopping_sessions/${userId}/`
+      );
+      console.log("GOT SESSION ID");
+      return data.id;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchCartData = async () => {
+    try {
+      const seshId = await getSessionId(1); //UPDATE THIS
+      await getCart(seshId);
     } catch (err) {
       console.error(err);
     }
   };
 
   useEffect(() => {
-    if (authToken) {
-      getData();
-    }
+    fetchCartData();
   }, []);
 
   return (
@@ -45,14 +90,8 @@ const App = () => {
       {/* {!authToken && <Auth />}
       {authToken && (
         <>
-          <ListHeader listName={"🏝️ Holiday tick list"} getData={getData} />
-          <p className="user-email">Welcome back {userEmail}</p>
-          {sortedTasks?.map((task) => (
-            <ListItem key={task.id} task={task} getData={getData} />
-          ))}
         </>
-      )}
-      <p className="copyright">© Bloom Marketplace</p> */}
+      )}*/}
       <BrowserRouter>
         {/* <nav className="d-flex">
           <Link to="/" className="text-reset text-decoration-none">
@@ -66,15 +105,29 @@ const App = () => {
             <Link to="/my-profile" className="text-reset text-decoration-none">User</Link>
           </div>
         </nav> */}
-        <NavBar auth={authToken}/>
+        <NavBar auth={authToken} handleShowCart={handleShowCart} />
         {/* {authToken && <Auth />} */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/plants" element={<Plants />} />
-          <Route path="/plants/:id" element={<PlantDetails email={userEmail} />} email={userEmail} />
+          <Route
+            path="/plants/:id"
+            element={<PlantDetails />}
+            email={userEmail}
+          />
           <Route path="/about/*" element={<About />} />
-          <Route path="/my-profile/*" element={<User auth={authToken} email={userEmail}/>} />
+          <Route
+            path="/my-profile/*"
+            element={<User auth={authToken} email={userEmail} />}
+          />
         </Routes>
+        <CartOffCanvas
+          placement="end"
+          name="Cart"
+          handleClose={handleCloseCart}
+          show={showCart}
+          cart={cart}
+        />
       </BrowserRouter>
     </div>
   );

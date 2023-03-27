@@ -1,22 +1,17 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FaPlus, FaMinus } from "react-icons/fa";
-import CartOffCanvas from "../../components/CartOffCanvas";
 import Testimonials from "../../components/Testimonials";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-function PlantDetails({ email }) {
+function PlantDetails() {
   const { id } = useParams();
   const [plant, setPlant] = useState({});
-  const [cart, setCart] = useState([]);
   const [recommended, setRecommended] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState("clay");
-  const [showCart, setShowCart] = useState(false);
-
-  const handleCloseCart = () => setShowCart(false);
-  const handleShowCart = () => setShowCart(true);
 
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -32,6 +27,30 @@ function PlantDetails({ email }) {
     const { value } = e.target;
     setColor(value);
   };
+
+  const notifySuccess = () =>
+    toast.success("Added to cart!", {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
+
+  const notifyError = (errorMsg) =>
+    toast.error(`Something went wrong: ${errorMsg}`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    });
 
   const createCartItem = async (userId) => {
     // create shopping session if doesnt exist
@@ -55,17 +74,18 @@ function PlantDetails({ email }) {
         `http://localhost:8080/api/cart_items`,
         item
       );
-      console.log("CART ITEM", created);
+      notifySuccess();
+      console.log("CART ITEM CREATED");
     } catch (err) {
+      notifyError(err.message)
       console.error(err);
     }
   };
 
   const handleAddToCart = () => {
-    console.log(color, quantity);
-    handleShowCart();
     createCartItem(1); // UPDATE THIS
-    getCart(1); //UPDATE THIS
+    // handleShowCart(); //SHOW TOAST INSTEAD OF CART
+    // getCart(1); //UPDATE THIS
   };
 
   const getPlant = async (plantId) => {
@@ -79,15 +99,15 @@ function PlantDetails({ email }) {
     }
   };
 
-  const getCart = async (sessionId) => {
-    try {
-      const {data} = await axios.get(`http://localhost:8080/api/cart_items/${sessionId}`);
-      setCart(data)
-      console.log("CART", data)
-    } catch (err) {
-      console.error(err)
-    }
-  }
+  // const getCart = async (sessionId) => {
+  //   try {
+  //     const {data} = await axios.get(`http://localhost:8080/api/cart_items/${sessionId}`);
+  //     // setCart(data)
+  //     console.log("CART", data)
+  //   } catch (err) {
+  //     console.error(err)
+  //   }
+  // }
 
   const getRecommended = async (currId) => {
     try {
@@ -106,19 +126,12 @@ function PlantDetails({ email }) {
 
   useEffect(() => {
     getPlant(id);
-    getCart(1); //UPDATE THIS
+    // getCart(1); //UPDATE THIS
     getRecommended(id);
   }, [id]);
 
   return (
     <div className="d-flex justify-content-center container mt-5">
-      <CartOffCanvas
-        placement="end"
-        name="Cart"
-        handleClose={handleCloseCart}
-        show={showCart}
-        cart={cart}
-      />
       <div className="d-flex row plants-container">
         <img
           src={plant.imgUrl}
@@ -256,6 +269,7 @@ function PlantDetails({ email }) {
         </div>
         <Testimonials />
       </div>
+      <ToastContainer/>
     </div>
   );
 }

@@ -1,19 +1,12 @@
-import { useState } from "react";
-import CartOffCanvas from "./CartOffCanvas";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import "../index.scss";
 import { FiSearch, FiUser, FiUserCheck, FiShoppingCart } from "react-icons/fi";
 
-function NavBar({ auth }) {
-  const [showCart, setShowCart] = useState(false);
-  const handleCloseCart = () => setShowCart(false);
-  const handleShowCart = () => setShowCart(true);
+function NavBar({ auth, handleShowCart }) {
 
   return (
     <>
@@ -73,12 +66,6 @@ function NavBar({ auth }) {
           </Navbar.Offcanvas>
         </Container>
       </Navbar>
-      <CartOffCanvas
-        placement="end"
-        name="Cart"
-        handleClose={handleCloseCart}
-        show={showCart}
-      />
     </>
   );
 }

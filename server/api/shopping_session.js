@@ -7,7 +7,6 @@ module.exports = router;
 router.post("/:userId", async (req, res, next) => {
   const { userId } = req.params;
   try {
-    console.log(userId)
     const user = await User.findByPk(userId);
     if (!user) {
       return res.status(404).send("User not found");
