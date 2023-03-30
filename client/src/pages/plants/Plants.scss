@@ -79,7 +79,7 @@ $white: #fbf9f3;
   }
 
   .shipping-container {
-    max-height: 12rem;
+    max-height: 10rem;
 
     div:first-of-type {
       border-right: 1px solid lightgray;
@@ -107,11 +107,39 @@ $white: #fbf9f3;
       font-weight: bold;
     }
   }
+
+  .accordion {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+  }
+  .accordion-item {
+    background-color: $white;
+    color: $green;
+  }
+
+  .accordion-button {
+    background-color: $white;
+    font-weight: bold;
+    color: $green;
+  }
+
+  .accordion-button:focus {
+    box-shadow: none;
+  }
 }
 
 input[type="radio"] {
   height: 50px;
   width: 50px;
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.label {
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 input[type="radio"]:before {

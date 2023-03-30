@@ -6,7 +6,7 @@ import Testimonials from "../../components/Testimonials";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Accordion from "react-bootstrap/Accordion";
+import {Accordion, Table} from "react-bootstrap";
 
 function PlantDetails() {
   const { id } = useParams();
@@ -224,45 +224,48 @@ function PlantDetails() {
           <div className="col-lg-6 d-flex row text-center justify-content-center m-0">
             <FaShippingFast className="shipping-icons" />
             <span>Free Shipping</span>
-            <p className="ms-2 me-2">Get free standard shipping when you spend $150 or more.</p>
+            <p className="ps-3 pe-3">Get free standard shipping when you spend $150 or more.</p>
           </div>
           <div className="col-lg-6 d-flex row text-center justify-content-center m-0">
             <BsPatchCheck className="shipping-icons" />
             <span>Guarantee</span>
-            <p className="ms-2 me-2">If your plant dies within 30 days, we'll replace it for free.</p>
+            <p className="ms-3 ps-3 pe-3">If your plant dies within 30 days, we'll replace it for free.</p>
           </div>
         </div>
         {plant.plant_detail && ( //error handling needs to be updated, and include loaders
           <>
             <div className="col-lg-6 mt-3">
-              <Accordion>
+              <Accordion flush>
                 <Accordion.Item eventKey="0">
                   <Accordion.Header>DETAILS & CARE</Accordion.Header>
                   <Accordion.Body>
+                    <Table>
                     <tbody>
                       <tr>
-                        <td>Size</td>
-                        <td>{plant.plant_detail.size}</td>
+                        <td className="col-md-4 label">Size</td>
+                        <td>{plant.plant_detail.size.toUpperCase()}</td>
                       </tr>
                       <tr>
-                        <td>Difficulty</td>
+                        <td className="label">Difficulty</td>
                         <td>{plant.care}</td>
                       </tr>
                       <tr>
-                        <td>Light</td>
-                        <td>{plant.plant_detail.light}</td>
+                        <td className="label">Light</td>
+                        <td className="capitalize">{plant.plant_detail.light}</td>
                       </tr>
                       <tr>
-                        <td>Pet Friendly</td>
+                        <td className="label">Pet Friendly</td>
                         <td>
                           {plant.plant_detail.pet_friendly ? "Yes" : "No"}
                         </td>
                       </tr>
                       <tr>
-                        <td>Air Cleaner</td>
+                        <td className="label">Air Cleaner</td>
                         <td>{plant.plant_detail.air_cleaner ? "Yes" : "No"}</td>
                       </tr>
                     </tbody>
+
+                    </Table>
                   </Accordion.Body>
                 </Accordion.Item>
                 <Accordion.Item eventKey="1">
