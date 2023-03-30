@@ -78,8 +78,34 @@ $white: #fbf9f3;
     }
   }
 
-  .rec-card {
+  .shipping-container {
+    max-height: 12rem;
 
+    div:first-of-type {
+      border-right: 1px solid lightgray;
+    }
+
+    span {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+    .shipping-icons {
+      font-size: 3rem;
+      color: $green;
+    }
+  }
+
+  .description-container {
+    background-color: $beige;
+
+    p:first-of-type {
+      border-bottom: 1px solid $green;
+    }
+
+    h4 {
+      color: $green;
+      font-weight: bold;
+    }
   }
 }
 
@@ -88,13 +114,13 @@ input[type="radio"] {
   width: 50px;
 }
 
-input[type='radio']:before {
-  content:'';
-  display:block;
-  width:60%;
-  height:60%;
+input[type="radio"]:before {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 60%;
   margin: 20% auto;
-  border-radius:50%;
+  border-radius: 50%;
 }
 
 .form-check-input {
@@ -103,22 +129,22 @@ input[type='radio']:before {
 }
 
 #stone {
-  background-color: #DADADA;
+  background-color: #dadada;
 }
 #stone:checked:before {
-  background: #DADADA;
+  background: #dadada;
 }
 #stone:after {
-  content: 'STONE';
+  content: "STONE";
 }
 #clay {
-  background-color: #C66E4E;
+  background-color: #c66e4e;
 }
 #clay:checked:before {
-  background: #C66E4E;
+  background: #c66e4e;
 }
 #clay:after {
-  content: 'CLAY';
+  content: "CLAY";
 }
 #black {
   background-color: black;
@@ -127,23 +153,23 @@ input[type='radio']:before {
   background: black;
 }
 #black:after {
-  content: 'BLACK';
+  content: "BLACK";
 }
 #slate {
-  background-color: #8391A1;
+  background-color: #8391a1;
 }
 #slate:checked:before {
-  background: #8391A1;
+  background: #8391a1;
 }
 #slate:after {
-  content: 'SLATE';
+  content: "SLATE";
 }
 #indigo {
-  background-color: #4B0082;
+  background-color: #4b0082;
 }
 #indigo:checked:before {
-  background: #4B0082;
+  background: #4b0082;
 }
 #indigo:after {
-  content: 'INDIGO';
+  content: "INDIGO";
 }

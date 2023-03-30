@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { FaPlus, FaMinus } from "react-icons/fa";
+import { FaPlus, FaMinus, FaShippingFast } from "react-icons/fa";
+import { BsPatchCheck } from "react-icons/bs";
 import Testimonials from "../../components/Testimonials";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import Accordion from "react-bootstrap/Accordion";
 
 function PlantDetails() {
   const { id } = useParams();
@@ -86,7 +88,7 @@ function PlantDetails() {
       notifySuccess();
       await createCartItem(1); // UPDATE THIS
     } catch (err) {
-      notifyError(err.message)
+      notifyError(err.message);
     }
   };
 
@@ -95,21 +97,12 @@ function PlantDetails() {
       const { data } = await axios.get(
         `http://localhost:8080/api/plants/${plantId}`
       );
+      console.log("PLANT DATA", data);
       setPlant(data);
     } catch (err) {
       console.error(err);
     }
   };
-
-  // const getCart = async (sessionId) => {
-  //   try {
-  //     const {data} = await axios.get(`http://localhost:8080/api/cart_items/${sessionId}`);
-  //     // setCart(data)
-  //     console.log("CART", data)
-  //   } catch (err) {
-  //     console.error(err)
-  //   }
-  // }
 
   const getRecommended = async (currId) => {
     try {
@@ -227,6 +220,91 @@ function PlantDetails() {
             </button>
           </div>
         </div>
+        <div className="col-lg-6 d-flex shipping-container mt-3 p-3">
+          <div className="col-lg-6 d-flex row text-center justify-content-center m-0">
+            <FaShippingFast className="shipping-icons" />
+            <span>Free Shipping</span>
+            <p className="ms-2 me-2">Get free standard shipping when you spend $150 or more.</p>
+          </div>
+          <div className="col-lg-6 d-flex row text-center justify-content-center m-0">
+            <BsPatchCheck className="shipping-icons" />
+            <span>Guarantee</span>
+            <p className="ms-2 me-2">If your plant dies within 30 days, we'll replace it for free.</p>
+          </div>
+        </div>
+        {plant.plant_detail && ( //error handling needs to be updated, and include loaders
+          <>
+            <div className="col-lg-6 mt-3">
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>DETAILS & CARE</Accordion.Header>
+                  <Accordion.Body>
+                    <tbody>
+                      <tr>
+                        <td>Size</td>
+                        <td>{plant.plant_detail.size}</td>
+                      </tr>
+                      <tr>
+                        <td>Difficulty</td>
+                        <td>{plant.care}</td>
+                      </tr>
+                      <tr>
+                        <td>Light</td>
+                        <td>{plant.plant_detail.light}</td>
+                      </tr>
+                      <tr>
+                        <td>Pet Friendly</td>
+                        <td>
+                          {plant.plant_detail.pet_friendly ? "Yes" : "No"}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Air Cleaner</td>
+                        <td>{plant.plant_detail.air_cleaner ? "Yes" : "No"}</td>
+                      </tr>
+                    </tbody>
+                  </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="1">
+                  <Accordion.Header>WHAT'S INCLUDED</Accordion.Header>
+                  <Accordion.Body>
+                    <ul>
+                      <li>
+                        Healthy plant pre-potted with premium soil
+                        <ul>
+                          <li>Plant size: 44"-58" tall (including pot)</li>
+                        </ul>
+                      </li>
+                      <li>
+                        Ecopots pot and saucer
+                        <ul>
+                          <li>Round Pot: 12" diameter, 10" tall</li>
+                          <li>Round Saucher: 10.5" diameter</li>
+                        </ul>
+                      </li>
+                      <li>All the tips and tricks for expert-level care</li>
+                    </ul>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+            </div>
+            <div className="d-flex mt-5 description-container">
+              <div className="col-lg-6 p-5">
+                <div className="p-2">
+                  <h4>Description</h4>
+                  <p className="pb-5 mb-5">
+                    {plant.plant_detail.full_description}
+                  </p>
+                  <h4>Botanical Name</h4>
+                  <i>{plant.plant_detail.botanical_name}</i>
+                  <h4 className="mt-3">Common Name(s)</h4>
+                  <p>{plant.plant_detail.common_name}</p>
+                </div>
+              </div>
+              <div className="col-lg-6 border border-info">IMAGE</div>
+            </div>
+          </>
+        )}
         <div className="d-flex row justify-content-center">
           <h3 className="mt-5 mb-3 text-center">
             We Make Houseplants <i>Easy</i>
@@ -271,7 +349,7 @@ function PlantDetails() {
         </div>
         <Testimonials />
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 }

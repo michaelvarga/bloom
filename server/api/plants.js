@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { models: { User, Plant },
+const { models: { User, Plant, Plant_Detail },
 } = require("../db");
 module.exports = router;
 
@@ -25,7 +25,9 @@ router.get("/", async (req, res, next) => {
 
 router.get("/:plantId", async (req, res, next) => {
   try {
-    const plant = await Plant.findByPk(req.params.plantId);
+    const plant = await Plant.findByPk(req.params.plantId, {
+      include: [Plant_Detail]
+    });
     res.json(plant);
   } catch (err) {
     next(err);
