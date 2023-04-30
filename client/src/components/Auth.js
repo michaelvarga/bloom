@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { useCookies } from "react-cookie";
 import "../index.scss";
+import axios from "axios";
 
 const Auth = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
@@ -15,6 +16,19 @@ const Auth = () => {
     setIsLogin(status);
   };
 
+  const authenticate = async (username, password, method) => {
+    console.log("AUTHENTICATING...")
+    try {
+      const response = await axios.post(`http://localhost:8080/auth/${method}`, {
+        username, password
+      })
+      setCookie("AuthToken", response.data.token)
+      console.log("AUTH COOKIE", response.data.token)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   const handleSubmit = async (e, endpoint) => {
     e.preventDefault();
     if (!isLogIn && password !== confirmPassword) {
@@ -22,25 +36,37 @@ const Auth = () => {
       return;
     }
 
-    const response = await fetch(
-      `${process.env.REACT_APP_SERVERURL}/${endpoint}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      }
-    );
 
-    const data = await response.json();
-    if (data.detail) {
-      setError(data.detail);
-    } else {
-      setCookie("Email", data.email);
-      setCookie("AuthToken", data.token);
 
-      window.location.reload();
+
+    // authenticate(email, password, endpoint)
+    // console.log("FETCHING")
+    // const response = await axios.post(
+    //   // `${process.env.REACT_APP_SERVERURL}/${endpoint}`,
+    //   `http://localhost:8080/auth/${endpoint}`,
+    //   {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ username: email, password }),
+    //   }
+    // );
+
+    // const data = await response.json();
+    // if (data.detail) {
+    //   setError(data.detail);
+    // } else {
+    //   // setCookie("Email", data.email);
+    //   setCookie("Email", data.username);
+    //   setCookie("AuthToken", data.token);
+    //   console.log("SUCCESS!", data.username, data.token)
+    //   window.location.reload();
     }
-  };
+    // try {
+    //   const response = await axios.post(`http://localhost:8080/auth/${endpoint}`)
+    // } catch (err) {
+    //   console.error(err)
+    // }
+  // };
 
   return (
     <div className="d-flex justify-content-center auth-container">

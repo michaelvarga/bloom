@@ -6,4 +6,7 @@ module.exports = db.define('shopping_session', {
     type: Sequelize.DECIMAL,
     defaultValue: 0,
   },
+  email: {
+    type: Sequelize.STRING,
+  }
 });
