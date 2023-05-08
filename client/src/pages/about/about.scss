@@ -13,4 +13,9 @@ $white: #FBF9F3;
     font-weight: bold;
     margin-bottom: 1rem;
   }
+
+  li > p:first-child {
+    color: $green;
+    font-weight: bold;
+  }
 }
