@@ -1,0 +1,16 @@
+$green: #234229;
+$beige: #F8F3E7;
+$coral: #F6CFB2;
+$white: #FBF9F3;
+
+// home page
+.about-container {
+  max-width: 70rem;
+  margin: 2rem;
+
+  h2 {
+    color: $green;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+}
