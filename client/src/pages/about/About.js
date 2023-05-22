@@ -3,8 +3,10 @@ import "./about.scss"
 
 function About() {
   return (
-    <div className="d-flex row justify-content-center">
-      <div className="about-container">
+    <div className="container">
+
+    <div className="row mx-auto justify-content-center">
+      <div className="about-container col-sm-9">
         <h2>About Us</h2>
         <p>
           Welcome to Bloom, your ultimate destination for all things plants!
@@ -42,7 +44,7 @@ function About() {
           plant needs. Let’s bring a little bit of nature into your world!
         </p>
       </div>
-      <div className="about-container">
+      <div className="about-container col-sm-9">
         <h2>Terms of Service Agreement</h2>
         <p>
           Welcome to Bloom, ("we," "us," or "our"). By using the Bloom website
@@ -160,6 +162,7 @@ function About() {
           contact us.
         </p>
       </div>
+    </div>
     </div>
   );
 }

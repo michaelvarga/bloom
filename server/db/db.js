@@ -31,7 +31,8 @@ const db = new Sequelize("postgres", "postgres", "postgres", {
   host: "database-1.co1ctmnxl6ev.us-east-2.rds.amazonaws.com",
   dialect: "postgres",
   port: 5432, // or your custom port
-  ssl: true, // if you have configured SSL/TLS for your RDS instance
+  ssl: true, // if you have configured SSL/TLS for your RDS
+  config
 });
 
 module.exports = db;
