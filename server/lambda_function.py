@@ -6,9 +6,13 @@ from custom_encoder import CustomEncoder
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-dynamodbTableName = 'plants'
+plantTableName = 'plants'
+cartTableName = 'bloom-plants'
+orderTableName = 'bloom-orders'
 dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table(dynamodbTableName)
+plantTable = dynamodb.Table(plantTableName)
+cartTable = dynamodb.Table(cartTableName)
+orderTable = dynamodb.Table(orderTableName)
 
 getMethod = 'GET'
 postMethod = 'POST'
@@ -17,6 +21,9 @@ deleteMethod = 'DELETE'
 healthPath = '/health'
 plantPath = '/plant'
 plantsPath = '/plants'
+cartPath = '/cart'
+orderPath = "/order"
+ordersPath = "/orders"
 
 
 def lambda_handler(event, context):
@@ -38,6 +45,19 @@ def lambda_handler(event, context):
     elif httpMethod == deleteMethod and path == plantPath:
         requestBody = json.loads(event['body'])
         response = deletePlant(requestBody['plantId'])
+    elif httpMethod == getMethod and path == cartPath:
+        response = getCartItems(event['queryStringParameters']['cartId'])
+    elif httpMethod == postMethod and path == cartPath:
+        response = saveCart(json.loads(event['body']))
+    elif httpMethod == patchMethod and path == cartPath:
+        requestBody = json.loads(event['body'])
+        response = modifyCart(requestBody['cartId'], requestBody['updateKey'], requestBody['updateValue'])
+    elif httpMethod == getMethod and path == orderPath:
+        response = getOrder(event['queryStringParameters']['orderId'])
+    elif httpMethod == getMethod and path == ordersPath:
+        response = getOrders()
+    elif httpMethod == postMethod and path == orderPath:
+        response = saveOrder(json.loads(event['body']))
     else:
         response = buildResponse(404, 'Not Found')
 
@@ -45,7 +65,7 @@ def lambda_handler(event, context):
 
 def getPlant(plantId):
     try:
-        response = table.get_item(
+        response = plantTable.get_item(
             Key = {
                 'plantId': plantId
             }
@@ -59,11 +79,11 @@ def getPlant(plantId):
 
 def getPlants():
     try:
-        response = table.scan()
+        response = plantTable.scan()
         result = response['Item']
 
         while 'LastEvaluatedKey' in response:
-            response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+            response = plantTable.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
             result.extend(response['Item'])
 
         body = {
@@ -76,7 +96,7 @@ def getPlants():
 
 def savePlant(requestBody):
     try:
-        table.put_item(Item=requestBody)
+        plantTable.put_item(Item=requestBody)
         body = {
             'Operation': 'SAVE',
             'Message': 'SUCCESS',
@@ -88,7 +108,7 @@ def savePlant(requestBody):
 
 def modifyPlant(plantId, updateKey, updateValue):
     try:
-        response = table.update_item(
+        response = plantTable.update_item(
             Key={
                 'plantId': plantId
             },
@@ -109,7 +129,7 @@ def modifyPlant(plantId, updateKey, updateValue):
 
 def deletePlant(plantId):
     try:
-        response = table.delete_item(
+        response = plantTable.delete_item(
             Key={
                 'plantId': plantId
             },
@@ -123,6 +143,41 @@ def deletePlant(plantId):
         return buildResponse(200, body)
     except:
         logger.exception('ERROR')
+
+# SHOPPING CART
+def getCartItems():
+    pass #REMOVE THIS
+    try:
+        response = cartTable.scan()
+        result = response['Item']
+
+        while 'LastEvaluatedKey' in response:
+            response = cartTable.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+            result.extend(response['Item'])
+
+        body = {
+            'plants': response
+        }
+
+        return buildResponse(200, body)
+    except:
+        logger.exception('ERROR')
+
+def saveCart():
+    pass
+
+def modifyCart():
+    pass
+
+# ORDERS
+def getOrders(userId):
+    pass
+
+def getOrder(orderId):
+    pass
+
+def saveOrder():
+    pass
 
 def buildResponse(statusCode, body=None):
     response = {
