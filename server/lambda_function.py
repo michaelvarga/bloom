@@ -80,7 +80,7 @@ def getPlant(plantId):
 def getPlants():
     try:
         response = plantTable.scan()
-        result = response['Item']
+        result = response['Items']
 
         while 'LastEvaluatedKey' in response:
             response = plantTable.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
