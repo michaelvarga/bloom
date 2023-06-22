@@ -107,7 +107,6 @@ const App = () => {
         </nav> */}
         <NavBar auth={authToken} handleShowCart={handleShowCart} />
         {/* {authToken && <Auth />} */}
-        USER EMAIL:{userEmail}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/plants" element={<Plants />} />
