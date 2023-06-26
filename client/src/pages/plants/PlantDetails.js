@@ -95,7 +95,7 @@ function PlantDetails() {
   const getPlant = async (plantId) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8080/api/plants/${plantId}`
+        `https://iaa78lddrb.execute-api.us-east-2.amazonaws.com/prod/plant?plantId=${plantId}`
       );
       console.log("PLANT DATA", data);
       setPlant(data);
@@ -232,7 +232,8 @@ function PlantDetails() {
             <p className="ms-3 ps-3 pe-3">If your plant dies within 30 days, we'll replace it for free.</p>
           </div>
         </div>
-        {plant.plant_detail && ( //error handling needs to be updated, and include loaders
+        {/* {plant.plant_detail && ( //error handling needs to be updated, and include loaders */}
+        {plant && ( //error handling needs to be updated, and include loaders
           <>
             <div className="col-lg-6 mt-3">
               <Accordion flush>
@@ -243,7 +244,7 @@ function PlantDetails() {
                     <tbody>
                       <tr>
                         <td className="col-md-4 label">Size</td>
-                        <td>{plant.plant_detail.size.toUpperCase()}</td>
+                        <td>{plant.size && plant.size.toUpperCase()}</td>
                       </tr>
                       <tr>
                         <td className="label">Difficulty</td>
@@ -251,17 +252,17 @@ function PlantDetails() {
                       </tr>
                       <tr>
                         <td className="label">Light</td>
-                        <td className="capitalize">{plant.plant_detail.light}</td>
+                        <td className="capitalize">{plant.light}</td>
                       </tr>
                       <tr>
                         <td className="label">Pet Friendly</td>
                         <td>
-                          {plant.plant_detail.pet_friendly ? "Yes" : "No"}
+                          {plant.pet_friendly ? "Yes" : "No"}
                         </td>
                       </tr>
                       <tr>
                         <td className="label">Air Cleaner</td>
-                        <td>{plant.plant_detail.air_cleaner ? "Yes" : "No"}</td>
+                        <td>{plant.air_cleaner ? "Yes" : "No"}</td>
                       </tr>
                     </tbody>
 
@@ -296,12 +297,12 @@ function PlantDetails() {
                 <div className="p-2">
                   <h4>Description</h4>
                   <p className="pb-5 mb-5">
-                    {plant.plant_detail.full_description}
+                    {plant.full_description}
                   </p>
                   <h4>Botanical Name</h4>
-                  <i>{plant.plant_detail.botanical_name}</i>
+                  <i>{plant.botanical_name}</i>
                   <h4 className="mt-3">Common Name(s)</h4>
-                  <p>{plant.plant_detail.common_name}</p>
+                  <p>{plant.common_name}</p>
                 </div>
               </div>
               <div className="col-lg-6 border border-info">IMAGE</div>
