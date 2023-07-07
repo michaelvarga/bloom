@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { FaPlus, FaMinus, FaShippingFast } from "react-icons/fa";
 import { BsPatchCheck } from "react-icons/bs";
 import Testimonials from "../../components/Testimonials";
+import AddToCartButton from "../../components/AddToCartButton";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -54,43 +55,43 @@ function PlantDetails() {
       theme: "colored",
     });
 
-  const createCartItem = async (userId) => {
-    // create shopping session if doesnt exist
-    // add cart item to shopping session
-    try {
-      const session = await axios.post(
-        `http://localhost:8080/api/shopping_sessions/${userId}/`
-      );
+  // const createCartItem = async (userId) => {
+  //   // create shopping session if doesnt exist
+  //   // add cart item to shopping session
+  //   try {
+  //     const session = await axios.post(
+  //       `http://localhost:8080/api/shopping_sessions/${userId}/`
+  //     );
 
-      let sessionId = session.data.id;
-      const item = {
-        plantId: id,
-        shoppingSessionId: sessionId,
-        userId: userId,
-        purchasePrice: plant.price,
-        quantity: quantity,
-        color: color,
-      };
+  //     let sessionId = session.data.id;
+  //     const item = {
+  //       plantId: id,
+  //       shoppingSessionId: sessionId,
+  //       userId: userId,
+  //       purchasePrice: plant.price,
+  //       quantity: quantity,
+  //       color: color,
+  //     };
 
-      // check if cart_items with sessionId has id, if yes update, or else create
-      const { data: created } = await axios.post(
-        `http://localhost:8080/api/cart_items`,
-        item
-      );
-      console.log("CART ITEM CREATED");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  //     // check if cart_items with sessionId has id, if yes update, or else create
+  //     const { data: created } = await axios.post(
+  //       `http://localhost:8080/api/cart_items`,
+  //       item
+  //     );
+  //     console.log("CART ITEM CREATED");
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  const handleAddToCart = async () => {
-    try {
-      notifySuccess();
-      await createCartItem(1); // UPDATE THIS
-    } catch (err) {
-      notifyError(err.message);
-    }
-  };
+  // const handleAddToCart = async () => {
+  //   try {
+  //     notifySuccess();
+  //     // await createCartItem(1); // UPDATE THIS
+  //   } catch (err) {
+  //     notifyError(err.message);
+  //   }
+  // };
 
   const getPlant = async (plantId) => {
     try {
@@ -215,9 +216,7 @@ function PlantDetails() {
                 <FaPlus />
               </button>
             </div>
-            <button className="add-to-cart-btn" onClick={handleAddToCart}>
-              ADD TO CART
-            </button>
+            <AddToCartButton notifySuccess={notifySuccess} notifyError={notifyError} />
           </div>
         </div>
         <div className="col-lg-6 d-flex shipping-container mt-3 p-3">

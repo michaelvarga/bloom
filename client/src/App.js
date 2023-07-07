@@ -21,30 +21,10 @@ const App = () => {
 
   const handleCloseCart = () => setShowCart(false);
   const handleShowCart = async () => {
-    await fetchCartData();
+    // await fetchCartData();
     setShowCart(true);
   };
 
-  // const getData = async () => {
-  //   try {
-  //     const response = await fetch(
-  //       `${process.env.REACT_APP_SERVERURL}/todos/${userEmail}`
-  //       // `http://localhost:8000/todos/${userEmail}`
-  //     );
-  //     console.log("RESPONSE", response);
-  //     const json = await response.json();
-  //     // console.log("JSON: ", json);
-  //     setTasks(json);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (authToken) {
-  //     getData();
-  //   }
-  // }, []);
   const getCart = async (sessionId) => {
     try {
       const { data } = await axios.get(
