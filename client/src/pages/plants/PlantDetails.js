@@ -126,6 +126,13 @@ function PlantDetails() {
     getRecommended(id);
   }, [id]);
 
+  const plantItem = {
+    plantId: plant.plantId,
+    name: plant.name,
+    price: plant.price,
+    quantity: quantity
+  }
+
   return (
     <div className="d-flex justify-content-center container mt-5">
       <div className="d-flex row plants-container">
@@ -216,7 +223,7 @@ function PlantDetails() {
                 <FaPlus />
               </button>
             </div>
-            <AddToCartButton notifySuccess={notifySuccess} notifyError={notifyError} />
+            <AddToCartButton item={plantItem} notifySuccess={notifySuccess} notifyError={notifyError} />
           </div>
         </div>
         <div className="col-lg-6 d-flex shipping-container mt-3 p-3">
