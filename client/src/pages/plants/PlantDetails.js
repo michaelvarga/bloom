@@ -55,44 +55,6 @@ function PlantDetails() {
       theme: "colored",
     });
 
-  // const createCartItem = async (userId) => {
-  //   // create shopping session if doesnt exist
-  //   // add cart item to shopping session
-  //   try {
-  //     const session = await axios.post(
-  //       `http://localhost:8080/api/shopping_sessions/${userId}/`
-  //     );
-
-  //     let sessionId = session.data.id;
-  //     const item = {
-  //       plantId: id,
-  //       shoppingSessionId: sessionId,
-  //       userId: userId,
-  //       purchasePrice: plant.price,
-  //       quantity: quantity,
-  //       color: color,
-  //     };
-
-  //     // check if cart_items with sessionId has id, if yes update, or else create
-  //     const { data: created } = await axios.post(
-  //       `http://localhost:8080/api/cart_items`,
-  //       item
-  //     );
-  //     console.log("CART ITEM CREATED");
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  // const handleAddToCart = async () => {
-  //   try {
-  //     notifySuccess();
-  //     // await createCartItem(1); // UPDATE THIS
-  //   } catch (err) {
-  //     notifyError(err.message);
-  //   }
-  // };
-
   const getPlant = async (plantId) => {
     try {
       const { data } = await axios.get(
@@ -107,8 +69,6 @@ function PlantDetails() {
 
   const getRecommended = async (currId) => {
     try {
-      // const response = await fetch(`${process.env.REACT_APP_SERVERURL}/plants/`)
-      //   .then((res) => res.json()).then(data => data.filter(obj => obj.id !== currId));
       axios.get(`http://localhost:8080/api/plants`).then((response) => {
         const plants = response.data
           .filter((plant) => plant.id !== currId)
@@ -129,6 +89,7 @@ function PlantDetails() {
   const plantItem = {
     plantId: plant.plantId,
     name: plant.name,
+    imgUrl: plant.imgUrl,
     price: plant.price,
     quantity: quantity
   }
