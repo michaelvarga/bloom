@@ -7,14 +7,35 @@ import CartItem from "./CartItem";
 
 function CartOffCanvas({ handleClose, show, cart, ...props }) {
   const [cartItems, setCartItems] = useState([])
+  const [totalPrice, setTotalPrice] = useState(0)
+
+  const getTotal = () => {
+    let total = 0;
+    for (const item in cartItems) {
+      total += (item.quantity * item.price)
+    }
+    setTotalPrice(total)
+    console.log("TOTAL PRICE", totalPrice)
+  }
 
   useEffect(() => {
     const storedCartItems = localStorage.getItem('bloom-cart');
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems))
     }
+    getTotal();
 
   }, []);
+
+  useEffect(() => {
+    let total = 0;
+    for(const item of cartItems) {
+      total += (item.quantity * item.price)
+    }
+    setTotalPrice(total)
+    console.log("TOTAL PRICE", cartItems)
+  }, [cartItems])
+
 
   const handleIncrement = (plantId) => {
     const updated = cartItems.map(item => {
@@ -24,6 +45,7 @@ function CartOffCanvas({ handleClose, show, cart, ...props }) {
       return item;
     });
     setCartItems(updated);
+    getTotal();
     localStorage.setItem('bloom-cart', JSON.stringify(updated));
   };
 
@@ -35,12 +57,14 @@ function CartOffCanvas({ handleClose, show, cart, ...props }) {
       return item;
     });
     setCartItems(updated);
+    getTotal();
     localStorage.setItem('bloom-cart', JSON.stringify(updated));
   };
 
   const handleDelete = (plantId) => {
     const updated = cartItems.filter((item) => item.plantId !== plantId);
     setCartItems(updated);
+    getTotal();
     localStorage.setItem('bloom-cart', JSON.stringify(updated))
   }
 
@@ -68,15 +92,15 @@ function CartOffCanvas({ handleClose, show, cart, ...props }) {
             <h4>Oh no! Your cart is empty</h4>
           )}
         </Offcanvas.Body>
-        {/* <div className="offcanvas-footer m-3 p-3">
+        <div className="offcanvas-footer m-3 p-3">
           <div className="d-flex justify-content-between">
             <span>Subtotal</span>
-            <span>${total}</span>
+            <span>${totalPrice}</span>
           </div>
           <button className="w-100 mt-3" onClick={() => getTotal()}>
             CHECKOUT
           </button>
-        </div> */}
+        </div>
       </Offcanvas>
     </>
   );

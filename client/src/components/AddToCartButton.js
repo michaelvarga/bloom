@@ -11,12 +11,6 @@ const AddToCartButton = ({ item, notifySuccess, notifyError }) => {
     }
   }, []);
 
-  // const handleAddToCart = () => {
-  //   const updatedCartItems = [...cartItems, item];
-  //   setCartItems(updatedCartItems);
-  //   localStorage.setItem('bloom-cart', JSON.stringify(updatedCartItems));
-  //   notifySuccess();
-  // };
   const handleAddToCart = () => {
     const existingCartItems = cartItems.find(cartItem => cartItem.plantId === item.plantId)
 
