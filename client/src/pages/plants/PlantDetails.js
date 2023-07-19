@@ -7,7 +7,7 @@ import AddToCartButton from "../../components/AddToCartButton";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {Accordion, Table} from "react-bootstrap";
+import { Accordion, Table } from "react-bootstrap";
 
 function PlantDetails() {
   const { id } = useParams();
@@ -91,8 +91,8 @@ function PlantDetails() {
     name: plant.name,
     imgUrl: plant.imgUrl,
     price: plant.price,
-    quantity: quantity
-  }
+    quantity: quantity,
+  };
 
   return (
     <div className="d-flex justify-content-center container mt-5">
@@ -184,19 +184,27 @@ function PlantDetails() {
                 <FaPlus />
               </button>
             </div>
-            <AddToCartButton item={plantItem} notifySuccess={notifySuccess} notifyError={notifyError} />
+            <AddToCartButton
+              item={plantItem}
+              notifySuccess={notifySuccess}
+              notifyError={notifyError}
+            />
           </div>
         </div>
         <div className="col-lg-6 d-flex shipping-container mt-3 p-3">
           <div className="col-lg-6 d-flex row text-center justify-content-center m-0">
             <FaShippingFast className="shipping-icons" />
             <span>Free Shipping</span>
-            <p className="ps-3 pe-3">Get free standard shipping when you spend $150 or more.</p>
+            <p className="ps-3 pe-3">
+              Get free standard shipping when you spend $150 or more.
+            </p>
           </div>
           <div className="col-lg-6 d-flex row text-center justify-content-center m-0">
             <BsPatchCheck className="shipping-icons" />
             <span>Guarantee</span>
-            <p className="ms-3 ps-3 pe-3">If your plant dies within 30 days, we'll replace it for free.</p>
+            <p className="ms-3 ps-3 pe-3">
+              If your plant dies within 30 days, we'll replace it for free.
+            </p>
           </div>
         </div>
         {/* {plant.plant_detail && ( //error handling needs to be updated, and include loaders */}
@@ -208,31 +216,28 @@ function PlantDetails() {
                   <Accordion.Header>DETAILS & CARE</Accordion.Header>
                   <Accordion.Body>
                     <Table>
-                    <tbody>
-                      <tr>
-                        <td className="col-md-4 label">Size</td>
-                        <td>{plant.size && plant.size.toUpperCase()}</td>
-                      </tr>
-                      <tr>
-                        <td className="label">Difficulty</td>
-                        <td>{plant.care}</td>
-                      </tr>
-                      <tr>
-                        <td className="label">Light</td>
-                        <td className="capitalize">{plant.light}</td>
-                      </tr>
-                      <tr>
-                        <td className="label">Pet Friendly</td>
-                        <td>
-                          {plant.pet_friendly ? "Yes" : "No"}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="label">Air Cleaner</td>
-                        <td>{plant.air_cleaner ? "Yes" : "No"}</td>
-                      </tr>
-                    </tbody>
-
+                      <tbody>
+                        <tr>
+                          <td className="col-md-4 label">Size</td>
+                          <td>{plant.size && plant.size.toUpperCase()}</td>
+                        </tr>
+                        <tr>
+                          <td className="label">Difficulty</td>
+                          <td>{plant.care}</td>
+                        </tr>
+                        <tr>
+                          <td className="label">Light</td>
+                          <td className="capitalize">{plant.light}</td>
+                        </tr>
+                        <tr>
+                          <td className="label">Pet Friendly</td>
+                          <td>{plant.pet_friendly ? "Yes" : "No"}</td>
+                        </tr>
+                        <tr>
+                          <td className="label">Air Cleaner</td>
+                          <td>{plant.air_cleaner ? "Yes" : "No"}</td>
+                        </tr>
+                      </tbody>
                     </Table>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -263,16 +268,16 @@ function PlantDetails() {
               <div className="col-lg-6 p-5">
                 <div className="p-2">
                   <h4>Description</h4>
-                  <p className="pb-5 mb-5">
-                    {plant.full_description}
-                  </p>
+                  <p className="pb-5 mb-5">{plant.full_description}</p>
                   <h4>Botanical Name</h4>
                   <i>{plant.botanical_name}</i>
                   <h4 className="mt-3">Common Name(s)</h4>
                   <p>{plant.common_name}</p>
                 </div>
               </div>
-              <div className="col-lg-6 border border-info">IMAGE</div>
+              <div className="col-lg-6">
+                <img src={plant.img_detail} alt={plant.name} className="w-100 p-3"/>
+              </div>
             </div>
           </>
         )}
