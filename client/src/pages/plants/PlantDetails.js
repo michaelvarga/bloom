@@ -81,7 +81,6 @@ function PlantDetails() {
 
   useEffect(() => {
     getPlant(id);
-    // getCart(1); //UPDATE THIS
     getRecommended(id);
   }, [id]);
 
@@ -102,23 +101,24 @@ function PlantDetails() {
           id="plant-img"
           className="col-lg-6"
         />
-        <div className="col-lg-6 info-container">
+        <div className="col-lg-6 info-container container">
           <div className="d-flex justify-content-between info-header align-items-end">
             <h3>{plant.name}</h3>
             <div>${plant.price}</div>
           </div>
-          <p>{plant.description}</p>
-
-          <p>{plant.location}</p>
-          <p>{plant.care}</p>
-          <p>
-            Stock:{" "}
-            {plant.inventory ? (
-              <span>item in stock</span>
-            ) : (
-              <span>item out of stock</span>
-            )}
-          </p>
+          <div className="mb-4">{plant.description}</div>
+          <div className="row mb-4 plant-chars">
+            <div className="col-md-4">{plant.location}</div>
+            <div className="col-md-4">{plant.care}</div>
+            <div className="col-md-4">
+              Stock:{" "}
+              {plant.inventory ? (
+                <span>item in stock</span>
+              ) : (
+                <span>item out of stock</span>
+              )}
+            </div>
+          </div>
           <div className="color-container">
             <h4>Choose a pot color</h4>
             <div className="d-flex colors">
@@ -275,7 +275,11 @@ function PlantDetails() {
                 </div>
               </div>
               <div className="col-lg-6">
-                <img src={plant.img_detail} alt={plant.name} className="w-100 p-3"/>
+                <img
+                  src={plant.img_detail}
+                  alt={plant.name}
+                  className="w-100 p-3"
+                />
               </div>
             </div>
           </>

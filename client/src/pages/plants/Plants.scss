@@ -126,6 +126,11 @@ $white: #fbf9f3;
   .accordion-button:focus {
     box-shadow: none;
   }
+
+  .plant-chars {
+    color: $green;
+    font-weight: bold;
+  }
 }
 
 .add-to-cart-btn {
