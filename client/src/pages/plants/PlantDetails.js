@@ -60,7 +60,6 @@ function PlantDetails() {
       const { data } = await axios.get(
         `https://iaa78lddrb.execute-api.us-east-2.amazonaws.com/prod/plant?plantId=${plantId}`
       );
-      console.log("PLANT DATA", data);
       setPlant(data);
     } catch (err) {
       console.error(err);

@@ -5,7 +5,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import { FaPlus, FaMinus } from "react-icons/fa";
 import CartItem from "./CartItem";
 
-function CartOffCanvas({ handleClose, show, cart, ...props }) {
+function CartOffCanvas({ handleClose, show, ...props }) {
   const [cartItems, setCartItems] = useState([])
   const [totalPrice, setTotalPrice] = useState(0)
 
@@ -15,16 +15,21 @@ function CartOffCanvas({ handleClose, show, cart, ...props }) {
       total += (item.quantity * item.price)
     }
     setTotalPrice(total)
-    console.log("TOTAL PRICE", totalPrice)
   }
 
-  useEffect(() => {
+  // get cart items from local storage
+  const getCartFromStorage = () => {
     const storedCartItems = localStorage.getItem('bloom-cart');
     if (storedCartItems) {
       setCartItems(JSON.parse(storedCartItems))
     }
-    getTotal();
 
+  }
+
+  // load cart data from local storage when the component mounts
+  useEffect(() => {
+    getCartFromStorage()
+    getTotal();
   }, []);
 
   useEffect(() => {
@@ -33,7 +38,6 @@ function CartOffCanvas({ handleClose, show, cart, ...props }) {
       total += (item.quantity * item.price)
     }
     setTotalPrice(total)
-    console.log("TOTAL PRICE", cartItems)
   }, [cartItems])
 
 
@@ -75,7 +79,7 @@ function CartOffCanvas({ handleClose, show, cart, ...props }) {
         onHide={handleClose}
         {...props}
         id="cart-offcanvas"
-      >
+        >
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
             <h3>Your Cart</h3>

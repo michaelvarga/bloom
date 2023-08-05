@@ -29,6 +29,7 @@ const AddToCartButton = ({ item, notifySuccess, notifyError }) => {
       setCartItems(updatedCartItems);
       localStorage.setItem('bloom-cart', JSON.stringify(updatedCartItems));
     }
+    // window.location.reload();
     notifySuccess();
   };
 

@@ -36,9 +36,6 @@ const Auth = () => {
       return;
     }
 
-
-
-
     // authenticate(email, password, endpoint)
     // console.log("FETCHING")
     // const response = await axios.post(

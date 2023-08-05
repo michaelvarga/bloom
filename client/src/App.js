@@ -16,51 +16,13 @@ const App = () => {
   const [cookies, setCookie, removeCookie] = useCookies(null);
   const authToken = cookies.AuthToken;
   const userEmail = cookies.Email;
-  const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
 
   const handleCloseCart = () => setShowCart(false);
   const handleShowCart = async () => {
-    // await fetchCartData();
     setShowCart(true);
   };
 
-  const getCart = async (sessionId) => {
-    try {
-      const { data } = await axios.get(
-        `http://localhost:8080/api/cart_items/${sessionId}`
-      );
-      setCart(data);
-      console.log("CART", data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const getSessionId = async (userId) => {
-    try {
-      const { data } = await axios.get(
-        `http://localhost:8080/api/shopping_sessions/${userId}/`
-      );
-      console.log("GOT SESSION ID");
-      return data.id;
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const fetchCartData = async () => {
-    try {
-      const seshId = await getSessionId(1); //UPDATE THIS
-      await getCart(seshId);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  useEffect(() => {
-    fetchCartData();
-  }, []);
 
   return (
     <div className="app flex-container">
@@ -73,18 +35,6 @@ const App = () => {
         </>
       )}*/}
       <BrowserRouter>
-        {/* <nav className="d-flex">
-          <Link to="/" className="text-reset text-decoration-none">
-            <h1>Bloom Marketplace</h1>
-          </Link>
-          <div>
-            <Link to="/plants" className="text-reset text-decoration-none">Plants</Link>
-            <Link to="/about" className="text-reset text-decoration-none">About</Link>
-          </div>
-          <div className="">
-            <Link to="/my-profile" className="text-reset text-decoration-none">User</Link>
-          </div>
-        </nav> */}
         <NavBar auth={authToken} handleShowCart={handleShowCart} />
         {/* {authToken && <Auth />} */}
         <Routes>
@@ -106,7 +56,6 @@ const App = () => {
           name="Cart"
           handleClose={handleCloseCart}
           show={showCart}
-          cart={cart}
         />
       </BrowserRouter>
     </div>
